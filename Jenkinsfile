@@ -16,7 +16,7 @@ node {
 		def scannerHome = tool 'sonarqube-scanner';
                     withSonarQubeEnv("sonarqube") {
                     sh "${tool("sonarqube-scanner")}/bin/sonar-scanner \
-                    -Dsonar.projectKey=lapig-jobs \
+                    -Dsonar.projectKey=pgrass-server \
                     -Dsonar.sources=. \
                     -Dsonar.css.node=. \
                     -Dsonar.host.url=$SonarUrl \
