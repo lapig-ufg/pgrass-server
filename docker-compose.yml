@@ -1,0 +1,24 @@
+version: '3.7'
+
+services:
+      
+      pgrass-server:
+        build: .
+        hostname: pgrass-server
+        container_name: pgrass-server
+        privileged: true
+        ports:
+          - '127.0.0.1:8080:8080'
+        expose:
+          - '8080'    
+        restart: always
+        stdin_open: true
+        tty: true
+        volumes:
+          - 'pgrass-data:/APP'
+          - 'pgrass-share:/data'
+          - '/etc/localtime:/etc/localtime'
+
+volumes:
+  pgrass-data:
+  pgrass-share:
