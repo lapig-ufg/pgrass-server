@@ -5,7 +5,7 @@ node {
 
         stage('Checkout') {
             git branch: 'main',
-            url: 'https://github.com/lapig-ufg/pgrass.git'
+            url: 'https://github.com/lapig-ufg/pgrass-server.git'
         }
         stage('Validate') {
             sh 'git pull origin main'
