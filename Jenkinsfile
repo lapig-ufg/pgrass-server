@@ -49,14 +49,14 @@ node {
 
         stage('Deploy container on HOMOL') {
 
-                        configFileProvider([configFile(fileId: "$File_Json_Id_APP_LAPIG_PGRASS_JOBS_HOMOL", targetLocation: 'container-lapig-pgrass-jobs-deploy-homol.json')]) {
+                        configFileProvider([configFile(fileId: "$File_Json_Id_APP_LAPIG_PGRASS_SERVER_HOMOL", targetLocation: 'container-lapig-pgrass-server-deploy-homol.json')]) {
 
                             def url = "http://$SERVER_HOMOL/containers/$application_name?force=true"
                             def response = sh(script: "curl -v -X DELETE $url", returnStdout: true).trim()
                             echo response
 
                             url = "http://$SERVER_HOMOL/containers/create?name=$application_name"
-                            response = sh(script: "curl -v -X POST -H 'Content-Type: application/json' -d @container-lapig-pgrass-jobs-deploy-homol.json -s $url", returnStdout: true).trim()
+                            response = sh(script: "curl -v -X POST -H 'Content-Type: application/json' -d @container-lapig-pgrass-server-deploy-homol.json -s $url", returnStdout: true).trim()
                             echo response
                         }
 
