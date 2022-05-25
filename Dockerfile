@@ -17,7 +17,6 @@ ENV PYTHONUNBUFFERED=1 \
 
 # prepend poetry and venv to path
 ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
-
 ###############################################
 # Builder Image
 ###############################################
@@ -40,11 +39,13 @@ RUN poetry install
 FROM python-base as production
 COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
 
+WORKDIR /APP
+
 # Clone app and npm install on server
 ENV URL_TO_APPLICATION_GITHUB="https://github.com/lapig-ufg/pgrass-server.git"
 ENV BRANCH="main"
 
-RUN apt-get update && apt-get install -y git && git clone -b ${BRANCH} ${URL_TO_APPLICATION_GITHUB} && \
-    rm -rf /var/lib/apt/lists/* && chmod +x pgrass-server/start.sh
+RUN apt-get update && apt-get install -y git && mkdir -p /APP && cd /APP && git clone -b ${BRANCH} ${URL_TO_APPLICATION_GITHUB} && \
+    rm -rf /var/lib/apt/lists/* && chmod +x /APP/pgrass-server/start.sh
 
-CMD sh -c "cd pgrass-server && gunicorn -k  uvicorn.workers.UvicornWorker --bind 0.0.0.0:8080 -w 4 -t 0 app.server:app"
+CMD sh -c "cd /APP/pgrass-server && gunicorn -k  uvicorn.workers.UvicornWorker --bind 0.0.0.0:8080 -w 4 -t 0 app.server:app"
