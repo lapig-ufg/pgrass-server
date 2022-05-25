@@ -1,11 +1,11 @@
 from dynaconf import Dynaconf
 from loguru import logger
 
-logger.add("../logs/serve.log")
+logger.add('../logs/serve.log')
 
 settings = Dynaconf(
-    envvar_prefix="PGASS",
-    settings_files=["settings.toml", ".secrets.toml"],
+    envvar_prefix='PGRASS',
+    settings_files=['settings.toml', '.secrets.toml'],
     environments=True,
-    load_dotenv=True
+    load_dotenv=True,
 )

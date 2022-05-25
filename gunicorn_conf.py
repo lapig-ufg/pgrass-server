@@ -9,8 +9,8 @@ worker_class = 'uvicorn.workers.UvicornWorker'
 
 # Logging Options
 timeout = 0
-host = "0.0.0.0"
+host = '0.0.0.0'
 port = 8888
 loglevel = 'debug'
 accesslog = './access.log'
-errorlog =  './error.log'
+errorlog = './error.log'

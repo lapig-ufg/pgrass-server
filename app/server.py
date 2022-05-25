@@ -1,15 +1,22 @@
 from fastapi import FastAPI
-from .api.stac import sentinel2
+from .api import feature
+from .api import timeserie
 
 app = FastAPI()
 
+
 app.include_router(
-    sentinel2.router,
-    prefix='/api/stac/sentinel2',
-    tags=["Sentinel 2 resource v1"]
-)
+    feature.router, 
+    prefix='/api/features', 
+    tags=['Feature']
+    )
 
+app.include_router(
+    timeserie.router, 
+    prefix='/api/timeserie', 
+    tags=['TimeSerie']
+    )
 
-@app.get("/")
+@app.get('/')
 async def root():
-    return {"message": "Hello World"}
+    return {'message': 'Hello World'}
