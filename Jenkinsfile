@@ -2,7 +2,6 @@ node {
 
     load "$JENKINS_HOME/.envvars"
     def application_name= "pgrass-server"
-
         stage('Checkout') {
             git branch: 'main',
             url: 'https://github.com/lapig-ufg/pgrass-server.git'
