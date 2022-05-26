@@ -20,7 +20,7 @@ async def get_timeseires_by_lon_lat(lon:float,lat:float):
         return timeseires
     raise HTTPException(status_code=404, detail=f"Timeseires Point({lon}, {lat}) not found")
 
-@router.get('/{id}', response_description="List TimeSeries by point_id", response_model=List[TimeSerie])
+@router.get('/{point_id}', response_description="List TimeSeries by point_id", response_model=List[TimeSerie])
 async def get_timeseires_by_point_id(point_id:str):
     if (timeseires := await db_timeseires.find({"point_id": PyObjectId(id)}).to_list(1000)) is not None:
         return timeseires
