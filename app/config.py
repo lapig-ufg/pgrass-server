@@ -1,7 +1,8 @@
 from dynaconf import Dynaconf
 from loguru import logger
 
-logger.add('../logs/serve.log')
+logger.add('/data/logs/server/server.log')
+logger.add('/data/logs/server/server_WARNING.log', level="WARNING")
 
 settings = Dynaconf(
     envvar_prefix='PGRASS',
