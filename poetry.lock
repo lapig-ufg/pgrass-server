@@ -964,7 +964,7 @@ dev = ["pytest (>=4.6.2)", "black (>=19.3b0)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "2307efc9593fab00155b111fc1992c72ae3217fc2ea1af27146228851ce3cc21"
+content-hash = "6f1ea248b335463e475902c9b1fdac92ca426383d10ba5677054802a93f69d95"
 
 [metadata.files]
 affine = [

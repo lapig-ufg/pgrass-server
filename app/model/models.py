@@ -12,6 +12,12 @@ from app.model.functions import get_id, get_id_by_lon_lat
 class SatelliteEnum(str, Enum):
     sentinel_s2_l2a_cogs = 'sentinel-s2-l2a-cogs'
 
+class JobStatusEnum(str,Enum):
+    in_queue = 'IN_QUEUE'
+    running = 'RUNNING'
+    canceled = 'CANCELLED'
+    error = 'ERROR'
+
 
 """
 {
