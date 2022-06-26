@@ -1,4 +1,4 @@
-from app.db import get_datetime_to_mongo, db_jobs
+from app.db import get_datetime_to_mongo, db_dataset
 from app.model.functions import get_id
 from fastapi import APIRouter, HTTPException
 
@@ -34,7 +34,7 @@ async def create_upload_files(
     
     try:
         created_at = get_datetime_to_mongo()
-        await db_jobs.insert_one({
+        await db_dataset.insert_one({
             '_id':get_id(
                 f'{md5_for_file(file.file)}{email}'
             )
