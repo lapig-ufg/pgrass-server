@@ -28,7 +28,7 @@ async def create_upload_files(
     
     if not all(gdf.geometry.apply(is_point)):
         raise HTTPException(status_code=406, detail='We only accept Point format geometry, there is one or more geometry that is not Point')
-    crs = gdf.crs.to_epsg()
+    epsg = gdf.crs.to_epsg()
     features = loads(gdf.to_json())
     
     
@@ -39,25 +39,25 @@ async def create_upload_files(
                 f'{md5_for_file(file.file)}{email}'
             )
             ,
-            "filenames": file.filename,
+            "file_name": file.filename,
             "first_name":first_name, 
             "last_name":last_name, 
             "email":email, 
             "institution":institution,
             "columns":list(gdf.columns),
             "features":features['features'],
-            'crs':crs,
+            'epsg':epsg,
             "job_status":'IN_QUEUE',
             'created_at': created_at
         })
         return {
-            "filenames": file.filename,
+            "file_name": file.filename,
             "first_name":first_name, 
             "last_name":last_name, 
             "email":email, 
             "institution":institution,
             "columns":list(gdf.columns),
-            'crs':crs,
+            'epsg':epsg,
             'created_at':created_at
         }
     except pymongo.errors.ServerSelectionTimeoutError as e:
