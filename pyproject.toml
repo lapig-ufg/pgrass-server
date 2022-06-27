@@ -30,6 +30,7 @@ blue = "^0.9.0"
 prospector = "^1.7.7"
 pytest = "^7.1.2"
 pip-audit = "^2.3.4"
+isort = "^5.10.1"
 
 
 [build-system]
