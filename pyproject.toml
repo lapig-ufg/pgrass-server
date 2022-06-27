@@ -16,10 +16,10 @@ rasterio = "1.3a4"
 geojson = "^2.5.0"
 pystac-client = "0.3.2"
 loguru = "^0.6.0"
-motor = {extras = ["srv"], version = "^3.0.0"}
 pydantic = {extras = ["email"], version = "^1.9.1"}
 python-multipart = "^0.0.5"
 pytz = "^2022.1"
+motor = "^3.0.0"
 
 
 
