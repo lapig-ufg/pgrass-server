@@ -3,10 +3,10 @@ from fastapi import FastAPI
 from .api import feature
 from .api import timeserie
 from .api import upload
+from app.config import start_logger
 
 
-
-
+start_logger()
 app = FastAPI()
 
 
@@ -32,8 +32,5 @@ app.include_router(
 async def root():
     return {'message': 'Hello World'}
 
-
-        
-        
 
 
