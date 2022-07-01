@@ -4,6 +4,13 @@ from pathlib import Path
 import geopandas as gpd
 from shapely.geometry.point import Point
 
+
+def id_to_gid(_dict):
+    gid = _dict.pop('id')
+    return {'gid':int(gid), **_dict}
+
+
+
 def md5_for_file(f, block_size=2**20):
     md5 = hashlib.md5()
     while True:
