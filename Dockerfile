@@ -14,7 +14,8 @@ ENV LAPIG_ENV=${LAPIG_ENV} \
     POETRY_VIRTUALENVS_IN_PROJECT=true \
     POETRY_NO_INTERACTION=1 \
     PYSETUP_PATH="/opt/pysetup" \
-    VENV_PATH="/opt/pysetup/.venv"
+    VENV_PATH="/opt/pysetup/.venv"\
+    PYTHONBREAKPOINT="web_pdb.set_trace"
 
 # prepend poetry and venv to path
 ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
@@ -32,7 +33,7 @@ WORKDIR $PYSETUP_PATH
 COPY poetry.lock pyproject.toml ./
 
 # install runtime deps - uses $POETRY_VIRTUALENVS_IN_PROJECT internally
-RUN poetry install $(test "$LAPIG_ENV" == production && echo "--no-dev") --no-interaction --no-ansi
+RUN poetry install --no-dev --no-interaction --no-ansi
 
 ###############################################
 # Production Image
