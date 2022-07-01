@@ -39,22 +39,21 @@ class JobStatusEnum(str,Enum):
 class Feature(MongoModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias='_id')
     gid: int
-    file_name: str = ''
+    dataset_id: PyObjectId
     biome: str
     municipally: str
     state: str
     point_id: PyObjectId = Field(default_factory=PyObjectId)
     lat: float
     lon: float
-    geometry: str = ''
+    geometry: dict
     epsg: int
-    dfields: Dict
+    properties: Dict
+    next_update: datetime
 
     def __init__(self, *a, **kw):
         super().__init__(*a, **kw)
-        self.id = get_id(f'{self.file_name}{self.gid}')
         self.point_id = get_id_by_lon_lat(self.lon, self.lat)
-        self.geometry = f'POINT ({self.lon:.5f} {self.lat:.5f}, {self.epsg})'
 
 
 """
