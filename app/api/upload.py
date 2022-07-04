@@ -1,4 +1,6 @@
 from datetime import datetime
+
+from numpy import column_stack
 from app.db import get_datetime_to_mongo, db_dataset
 from app.model.functions import get_id
 from fastapi import APIRouter, HTTPException,File, UploadFile
@@ -48,7 +50,7 @@ async def create_upload_files(
         #        f'{md5_for_file(file_binary)}{email}'
         #    )
         logger.debug(f'email: {email} obid: {hash_file} ')
-        
+        columns = [name for name in gdf.columns if not name == 'geometry']
         await db_dataset.insert_one({
             '_id':hash_file,
             "file_name": filename,
@@ -56,7 +58,7 @@ async def create_upload_files(
             "last_name":last_name, 
             "email":email, 
             "institution":institution,
-            "columns":list(gdf.columns),
+            "columns":columns,
             'epsg':epsg,
             'created_at': created_at
         })
@@ -68,7 +70,7 @@ async def create_upload_files(
         features_to_db = [
             {   '_id':get_id(f'{hash_file}{feature["id"]}'),
                 **meta_data, 
-                **id_to_gid(feature)
+                **id_to_gid(feature,get_id(f'{hash_file}{feature["id"]}'))
             } for feature in features['features']]
         await db_features.insert_many(features_to_db)
 
@@ -78,7 +80,7 @@ async def create_upload_files(
             "last_name":last_name, 
             "email":email, 
             "institution":institution,
-            "columns":list(gdf.columns),
+            "columns":columns,
             'epsg':epsg,
             'created_at':created_at
         }

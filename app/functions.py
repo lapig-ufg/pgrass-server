@@ -4,10 +4,13 @@ from pathlib import Path
 import geopandas as gpd
 from shapely.geometry.point import Point
 
+from app.model.functions import get_id
 
-def id_to_gid(_dict):
-    gid = _dict.pop('id')
-    return {'gid':int(gid), **_dict}
+
+def id_to_gid(_dict,root_id):
+    gid = get_id(f"{root_id}{_dict.pop('id')}")
+    _dict['properties']['__pgrass_gid'] = gid
+    return {'_id':gid, **_dict}
 
 
 
