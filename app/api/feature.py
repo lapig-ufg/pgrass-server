@@ -37,6 +37,5 @@ class Point(MongoModel):
 async def get_features_point(dataset_id:str):
     if (points := await db_features.find({'dataset_id':ObjectId(dataset_id)},
                                          {'point_id':1,'lat':1,'lon':1,'epsg':1}).to_list(1000)) is not None:
-        logger.debug(points)
         return points
     raise HTTPException(status_code=404, detail=f"Feature {id} not found")
