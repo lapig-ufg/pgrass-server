@@ -1,7 +1,6 @@
 from typing import List, Tuple
 
 from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
 
 from app.db import MongoModel, db_features, PyObjectId
 from app.model.models import Feature
