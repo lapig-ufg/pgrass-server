@@ -1,7 +1,6 @@
-from bson import ObjectId
 from fastapi import APIRouter, HTTPException
 
-from app.db import db_dataset
+from app.db import PyObjectId, db_dataset
 
 router = APIRouter()
 
@@ -13,5 +12,5 @@ async def get_features():
 
 @router.get('/{_id}', response_description="Dataset")
 async def get_features(_id):
-    dataset = await db_dataset.find({'_id': ObjectId(_id)}).to_list(100)
+    dataset = await db_dataset.find({'_id': PyObjectId(_id)}).to_list(100)
     return dataset
