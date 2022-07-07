@@ -38,7 +38,6 @@ class JobStatusEnum(str,Enum):
 
 class Feature(MongoModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias='_id')
-    gid: int
     dataset_id: PyObjectId
     biome: str
     municipally: str
@@ -49,7 +48,6 @@ class Feature(MongoModel):
     geometry: dict
     epsg: int
     properties: Dict
-    next_update: datetime
 
     def __init__(self, *a, **kw):
         super().__init__(*a, **kw)
