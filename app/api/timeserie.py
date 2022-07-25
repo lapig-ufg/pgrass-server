@@ -70,4 +70,4 @@ async def get_timeseires_by_point_id_satellite_asset(
         return NGCharts(labels = dates,
                datasets = [NGDatasets(label=asset,data=values)]       
         )
-    raise HTTPException(status_code=404, detail=f"Timeseires point_id:{point_id}, sattelite:{sattelite}, band_index:{band_index} not found")
+    raise HTTPException(status_code=404, detail=f"Timeseires point_id:{point_id}, sattelite:{sattelite}, asset:{asset} not found")
