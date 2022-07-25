@@ -6,15 +6,19 @@ from fastapi import APIRouter, HTTPException
 from pydantic import Field
 
 from app.db import MongoModel, db_features, PyObjectId
-from app.model.models import Feature
+from app.model.models import Feature, ListId
 from app.config import logger
 router = APIRouter()
 
 
-@router.get('/dataset/{dataset_id}', response_description="List all features db_dataset", response_model=List[Feature])
+@router.get('/dataset/{dataset_id}',
+            response_description="List all features db_dataset", 
+            response_model=List[ListId])
 async def get_features(dataset_id):
-    features = await db_features.find({'dataset_id':ObjectId(dataset_id)}).to_list(1000)
-    return features
+    if (features := await db_features.find(
+        {'dataset_id':ObjectId(dataset_id),'municipally': {'$exists': True}},{'_id':1}).to_list(10000)):
+        return features
+    raise HTTPException(status_code=404, detail=f"Feature dataset {dataset_id} has not been processed yet, please try later")
 
 
 @router.get(

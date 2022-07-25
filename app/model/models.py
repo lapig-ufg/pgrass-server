@@ -11,6 +11,10 @@ from app.model.functions import get_id, get_id_by_lon_lat
 
 class SatelliteEnum(str, Enum):
     sentinel_s2_l2a_cogs = 'sentinel-s2-l2a-cogs'
+    
+    
+class ListId(MongoModel):
+    id: PyObjectId = Field(default_factory=PyObjectId, alias='_id')
 
 class JobStatusEnum(str,Enum):
     in_queue = 'IN_QUEUE'
@@ -79,20 +83,19 @@ class Feature(MongoModel):
 	}
 """
 
-
 class TimeSerie(MongoModel):
-    id: PyObjectId = Field(default_factory=PyObjectId, alias='_id')
-    ts_source_id: int
+    id: PyObjectId = Field(default_factory=PyObjectId)
     point_id: PyObjectId = Field(default_factory=PyObjectId)
     sattelite: SatelliteEnum
-    sensor: str = ''
-    band_index: str
-    datetimes: List[datetime]
-    values: List[Union[int, float]]
-    cogs: List[HttpUrl]
+    sensor: str
+    catalog_url: HttpUrl
+    asset: str
+    datetime: datetime
+    value: Union[int, float]
+    cog: HttpUrl
 
     def __init__(self, *a, **kw):
         super().__init__(*a, **kw)
         self.id = get_id(
-            f'{self.ts_source_id}{self.point_id}{self.sattelite}{self.band_index}{self.sensor}'
+            f'{self.point_id}{self.sattelite}{self.sensor}{self.asset}{self.cog}'
         )
