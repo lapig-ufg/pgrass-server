@@ -2,6 +2,7 @@ from typing import Dict, List, Union
 from bson import ObjectId
 
 from fastapi import APIRouter, HTTPException
+from loguru import logger
 from pydantic import BaseModel
 from datetime import datetime
 
@@ -46,28 +47,34 @@ class NGCharts(BaseModel):
     datasets: List[NGDatasets]
 
 
-@router.get(
-    "/{point_id}/{sattelite}/{asset}", 
+@router.post(
+    "/{point_id}/{sattelite}", 
     response_description="Get timeseires by point_id satellite band or index ", 
     response_model=NGCharts
 )
-async def get_timeseires_by_point_id_satellite_asset(
+async def get_timeseires_by_point_id_satellite_assets(
     point_id:str, 
     sattelite: SatelliteEnum, 
-    asset: str
+    assets: List[str]
     ):
-    
-    if (timeseires := await db_timeseires.find({
-        "point_id": ObjectId(point_id),
-        "sattelite": sattelite,
-        "asset":asset
-        },{'value':1,'datetime':1,'_id':0}).sort('datetime').to_list(100000)) is not None:
-        dates = []
-        values = []
-        for data in timeseires:
-            dates.append(data['datetime'])
-            values.append(data['value'])
-        return NGCharts(labels = dates,
-               datasets = [NGDatasets(label=asset,data=values)]       
-        )
-    raise HTTPException(status_code=404, detail=f"Timeseires point_id:{point_id}, sattelite:{sattelite}, asset:{asset} not found")
+    datasets = []
+    labels_dates = []
+    for asset in assets:
+        if (timeseires := await db_timeseires.find({
+            "point_id": ObjectId(point_id),
+            "sattelite": sattelite,
+            "asset":asset
+            },{'value':1,'datetime':1,'_id':0}).sort('datetime').to_list(100000)) is not None:
+            dates = []
+            values = []
+            for data in timeseires:
+                dates.append(data['datetime'])
+                values.append(data['value'])
+            if len(labels_dates) == 0:
+                labels_dates = dates
+            elif labels_dates != dates:
+                raise HTTPException(status_code=404, detail=f"Timeseires point_id:{point_id}, sattelite:{sattelite}, asset:{assets} not found")
+            datasets.append(NGDatasets(label=asset,data=values))  
+        else:
+            raise HTTPException(status_code=404, detail=f"Timeseires point_id:{point_id}, sattelite:{sattelite}, asset:{assets} not found")
+    return NGCharts(labels=labels_dates,datasets=datasets)
