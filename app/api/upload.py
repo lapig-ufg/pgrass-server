@@ -8,7 +8,7 @@ from fastapi import APIRouter, HTTPException,File, UploadFile
 from json import loads
 
 import pymongo
-from app.functions import id_to_gid, is_point, md5_for_file, read_file
+from app.functions import id_to_gid, is_point, read_file
 from app.config import logger
 from app.db import db_features
 

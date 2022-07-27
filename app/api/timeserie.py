@@ -7,7 +7,7 @@ from pydantic import BaseModel
 from datetime import datetime
 
 from app.db import db_timeseires
-from app.model.models import SatelliteEnum, TimeSerie
+from app.model.models import CollectionsEnum, TimeSerie
 
 router = APIRouter()
 
@@ -21,18 +21,18 @@ router = APIRouter()
     response_model=Dict
     )
 async def get_timeseires_by_point_id(point_id:str):
-    sattelites = await db_timeseires.distinct('sattelite',{"point_id": ObjectId(point_id)})
+    collections = await db_timeseires.distinct('collection',{"point_id": ObjectId(point_id)})
     dict_metadata = {}
-    for sattelite in sattelites:
-        sensors = await db_timeseires.distinct('sensor',{"point_id": ObjectId(point_id) ,"sattelite":sattelite})
-        dict_metadata[sattelite] = {}
+    for collection in collections:
+        sensors = await db_timeseires.distinct('sensor',{"point_id": ObjectId(point_id) ,"collection":collection})
+        dict_metadata[collection] = {}
         for sensor in sensors:
             asset = await db_timeseires.distinct('asset',{
                 "point_id": ObjectId(point_id) ,
-                "sattelite":sattelite,
+                "collection":collection,
                 'sensor':sensor
                 })
-            dict_metadata[sattelite][sensor] = asset
+            dict_metadata[collection][sensor] = asset
     
     if len(dict_metadata) > 0:
         return dict_metadata
@@ -48,13 +48,13 @@ class NGCharts(BaseModel):
 
 
 @router.post(
-    "/{point_id}/{sattelite}", 
+    "/{point_id}/{collection}", 
     response_description="Get timeseires by point_id satellite band or index ", 
     response_model=NGCharts
 )
 async def get_timeseires_by_point_id_satellite_assets(
     point_id:str, 
-    sattelite: SatelliteEnum, 
+    collection: CollectionsEnum, 
     assets: List[str]
     ):
     datasets = []
@@ -62,7 +62,7 @@ async def get_timeseires_by_point_id_satellite_assets(
     for asset in assets:
         if (timeseires := await db_timeseires.find({
             "point_id": ObjectId(point_id),
-            "sattelite": sattelite,
+            "collection": collection,
             "asset":asset
             },{'value':1,'datetime':1,'_id':0}).sort('datetime').to_list(100000)) is not None:
             dates = []
@@ -73,8 +73,8 @@ async def get_timeseires_by_point_id_satellite_assets(
             if len(labels_dates) == 0:
                 labels_dates = dates
             elif labels_dates != dates:
-                raise HTTPException(status_code=404, detail=f"Timeseires point_id:{point_id}, sattelite:{sattelite}, asset:{assets} not found")
+                raise HTTPException(status_code=404, detail=f"Timeseires point_id:{point_id}, collection:{collection}, asset:{assets} not found")
             datasets.append(NGDatasets(label=asset,data=values))  
         else:
-            raise HTTPException(status_code=404, detail=f"Timeseires point_id:{point_id}, sattelite:{sattelite}, asset:{assets} not found")
+            raise HTTPException(status_code=404, detail=f"Timeseires point_id:{point_id}, collection:{collection}, asset:{assets} not found")
     return NGCharts(labels=labels_dates,datasets=datasets)
