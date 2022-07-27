@@ -2,7 +2,6 @@ from typing import Dict, List, Union
 from bson import ObjectId
 
 from fastapi import APIRouter, HTTPException
-from loguru import logger
 from pydantic import BaseModel
 from datetime import datetime
 
@@ -24,15 +23,11 @@ async def get_timeseires_by_point_id(point_id:str):
     collections = await db_timeseires.distinct('collection',{"point_id": ObjectId(point_id)})
     dict_metadata = {}
     for collection in collections:
-        sensors = await db_timeseires.distinct('sensor',{"point_id": ObjectId(point_id) ,"collection":collection})
-        dict_metadata[collection] = {}
-        for sensor in sensors:
-            asset = await db_timeseires.distinct('asset',{
-                "point_id": ObjectId(point_id) ,
-                "collection":collection,
-                'sensor':sensor
-                })
-            dict_metadata[collection][sensor] = asset
+        asset = await db_timeseires.distinct('asset',{
+            "point_id": ObjectId(point_id) ,
+            "collection":collection
+            })
+        dict_metadata[collection] = asset
     
     if len(dict_metadata) > 0:
         return dict_metadata

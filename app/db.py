@@ -17,9 +17,7 @@ db_points = db.points
 db_timeseires = db.timeseires
 db_features = db.features
 db_dataset = db.dataset
-
-
-teste = db.teste
+db_collections = db.collections
 
 
 def get_datetime_to_mongo():

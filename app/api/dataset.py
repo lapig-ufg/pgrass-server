@@ -5,7 +5,7 @@ from fastapi import APIRouter, HTTPException
 from pydantic import EmailStr, Field
 
 
-from app.db import PyObjectId, db_dataset, MongoModel, db_features
+from app.db import PyObjectId, db_dataset, MongoModel
 from app.config import logger
 from app.model.models import ListId
 router = APIRouter()
