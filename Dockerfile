@@ -45,13 +45,11 @@ WORKDIR /APP
 
 # Clone app and npm install on server
 ENV URL_TO_APPLICATION_GITHUB="https://github.com/lapig-ufg/pgrass-server.git"
-ENV URL_TO_APPLICATION_GITHUB_CLINTE="https://github.com/lapig-ufg/pgrass-client"
 ENV BRANCH="main"
 
 RUN apt-get update && \
     apt-get install -y git make && \
     mkdir -p /APP && cd /APP && \
-    git clone -b ${BRANCH} ${URL_TO_APPLICATION_GITHUB} && \
     git clone -b ${BRANCH} ${URL_TO_APPLICATION_GITHUB} && \
     rm -rf /var/lib/apt/lists/* && chmod +x /APP/pgrass-server/start.sh
 
