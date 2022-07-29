@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import List
 from bson import ObjectId
 
 
@@ -7,7 +7,7 @@ from pydantic import Field
 
 from app.db import MongoModel, db_features, PyObjectId
 from app.model.models import Feature, ListId
-from app.config import logger
+
 router = APIRouter()
 
 

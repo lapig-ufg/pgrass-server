@@ -1,12 +1,12 @@
-from fastapi import FastAPI, Request, status
+from fastapi import FastAPI, status
 from pathlib import Path
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import JSONResponse, HTMLResponse
+from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from fastapi.templating import Jinja2Templates
-from app.config import logger
+from app.config import logger, settings
 
 from .routers import created_routes
 from app.config import start_logger
@@ -20,7 +20,7 @@ app = created_routes(app)
 angular_path =  Path('../pgrass-client/dist/fuse').resolve()
 templates_path = Path('templates')
 templates = Jinja2Templates(directory=templates_path)
-angular = Jinja2Templates(directory=angular_path)
+#angular = Jinja2Templates(directory=angular_path)
 
 app.mount("/static", StaticFiles(directory=templates_path.resolve()),'static')
 
@@ -35,8 +35,11 @@ async def http_exception_handler(request, exc):
             'status_code':start_code,
             'menssge':exc.detail
         },status_code= start_code)
+    base_url = request.base_url
+    if settings.HTTPS:
+        base_url = base_url.replace('http://','https://')
     return templates.TemplateResponse("error.html", {"request": request, 
-                                                     "base_url": request.base_url,
+                                                     "base_url": base_url,
                                                      "info":'',
                                                      "status": start_code, 
                                                      "message": exc.detail})

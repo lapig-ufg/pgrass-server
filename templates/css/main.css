@@ -605,6 +605,9 @@ header .logo {
 	left: 26px;
 	top: 0;
 	margin-top: 78px;
+	padding: 10px;
+    background: #0e171c00;
+    border-radius: 10px;
 }
 header .logo a {
 	display: block;

@@ -6,7 +6,7 @@ from pydantic import BaseModel
 from datetime import datetime
 
 from app.db import db_timeseires
-from app.model.models import CollectionsEnum, TimeSerie
+from app.model.models import CollectionsEnum
 
 router = APIRouter()
 

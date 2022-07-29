@@ -1,10 +1,8 @@
 from typing import Dict, List
-from bson import ObjectId
 from fastapi import APIRouter, HTTPException
-from pydantic import EmailStr, Field
 
 
-from app.db import PyObjectId, db_collections, MongoModel
+from app.db import db_collections
 
 router = APIRouter()
 
