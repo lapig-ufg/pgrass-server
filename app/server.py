@@ -37,7 +37,7 @@ async def http_exception_handler(request, exc):
         },status_code= start_code)
     base_url = request.base_url
     if settings.HTTPS:
-        base_url = base_url.replace('http://','https://')
+        base_url = f'{base_url}'.replace('http://','https://')
     return templates.TemplateResponse("error.html", {"request": request, 
                                                      "base_url": base_url,
                                                      "info":'',
