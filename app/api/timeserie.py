@@ -6,13 +6,10 @@ from pydantic import BaseModel
 from datetime import datetime
 
 from app.db import db_timeseires
+from app.errors import ErrorsRoute
 from app.model.models import CollectionsEnum
 
-router = APIRouter()
-
-
-
-
+router = APIRouter(route_class=ErrorsRoute)
 
 
 @router.get('/{point_id}', 

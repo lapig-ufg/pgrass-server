@@ -7,8 +7,10 @@ from pydantic import EmailStr, Field
 
 from app.db import PyObjectId, db_dataset, MongoModel
 from app.config import logger
+from app.errors import ErrorsRoute
 from app.model.models import ListId
-router = APIRouter()
+
+router = APIRouter(route_class=ErrorsRoute)
 
 
 class Dataset(MongoModel):
@@ -31,12 +33,12 @@ async def get_datasets():
         return dataset
     except Exception as e:
         logger.exception(f'Error! {e}')
-        raise HTTPException(status_code=5000, detail=f"Server Error!")
+        raise HTTPException(status_code=500, detail=f"Server Error!")
 
         
-
 @router.get('/{_id}', response_description="Dataset", response_model=Dataset)
 async def get_dataset(_id):
     if (dataset := await db_dataset.find_one({"_id": ObjectId(_id)})) is not None:
         return dataset
     raise HTTPException(status_code=404, detail=f"Dataset {_id} not found")
+   

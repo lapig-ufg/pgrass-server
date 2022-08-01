@@ -6,9 +6,10 @@ from fastapi import APIRouter, HTTPException
 from pydantic import Field
 
 from app.db import MongoModel, db_features, PyObjectId
+from app.errors import ErrorsRoute
 from app.model.models import Feature, ListId
 
-router = APIRouter()
+router = APIRouter(route_class=ErrorsRoute)
 
 
 @router.get('/dataset/{dataset_id}',
