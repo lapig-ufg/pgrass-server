@@ -18,6 +18,7 @@ db_timeseires = db.timeseires
 db_features = db.features
 db_dataset = db.dataset
 db_collections = db.collections
+db_users = db.users
 
 
 def get_datetime_to_mongo():

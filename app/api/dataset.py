@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import List
 from bson import ObjectId
 from fastapi import APIRouter, HTTPException
-from pydantic import EmailStr, Field
+from pydantic import Field
 
 
 from app.db import PyObjectId, db_dataset, MongoModel
@@ -16,10 +16,7 @@ router = APIRouter(route_class=ErrorsRoute)
 class Dataset(MongoModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias='_id')
     file_name: str
-    first_name: str
-    last_name: str
-    email: EmailStr
-    institution: str
+    username: str
     columns: List[str]
     epsg: int
     created_at: datetime

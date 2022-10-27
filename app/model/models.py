@@ -12,12 +12,6 @@ class ListId(MongoModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias='_id')
 
 
-class JobStatusEnum(str, Enum):
-    in_queue = 'IN_QUEUE'
-    running = 'RUNNING'
-    complete = 'COMPLETE'
-    canceled = 'CANCELLED'
-    error = 'ERROR'
 
 def create_enum_collections():
     collections = {}

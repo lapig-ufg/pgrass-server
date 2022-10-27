@@ -1,9 +1,8 @@
 from datetime import datetime
 
-from numpy import column_stack
 from app.db import get_datetime_to_mongo, db_dataset
 from app.model.functions import get_id
-from fastapi import APIRouter, HTTPException,File, UploadFile
+from fastapi import APIRouter, HTTPException, File, UploadFile
 
 from json import loads
 
