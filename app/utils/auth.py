@@ -25,7 +25,7 @@ def get_user(username: str):
     with MongoClient(settings.MONGODB_URL) as client:
         db = client.pgrass
         if (user := db.users.find_one({"_id": username})) is not None:
-            return user
+            return user.mongo()
 
 
 def authenticate_user(username: str, password: str):
