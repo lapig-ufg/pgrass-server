@@ -6,7 +6,7 @@ from jose import JWTError, jwt
 from passlib.context import CryptContext
 
 from app.model.auth import TokenData, User
-from app.config import settings
+from app.config import settings, logger
 from pymongo import MongoClient
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -25,7 +25,8 @@ def get_user(username: str):
     with MongoClient(settings.MONGODB_URL) as client:
         db = client.pgrass
         if (user := db.users.find_one({"_id": username})) is not None:
-            return user.mongo()
+            logger.debug(user)
+            return User(**user)
 
 
 def authenticate_user(username: str, password: str):
