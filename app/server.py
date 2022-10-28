@@ -30,7 +30,7 @@ app.mount("/static", StaticFiles(directory=templates_path.resolve()),'static')
 @app.exception_handler(StarletteHTTPException)
 async def http_exception_handler(request, exc):
     start_code = exc.status_code
-    if request.url.path.split('/')[1] == 'api':
+    if request.url.path.split('/')[1] in ['api','auth']:
         return JSONResponse(content={
             'status_code':start_code,
             'menssge':exc.detail
