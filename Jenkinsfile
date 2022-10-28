@@ -23,7 +23,7 @@ node {
                     }
         }
         stage('Building Image') {
-            dockerImage = docker.build registryHOMOL + "/$application_name:$BUILD_NUMBER", "--build-arg  --no-cache -f Dockerfile ."
+            dockerImage = docker.build registryHOMOL + "/$application_name:$BUILD_NUMBER", "--no-cache -f Dockerfile ."
         }
         stage('Push Image to Registry') {
 
