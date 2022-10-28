@@ -24,7 +24,7 @@ def get_password_hash(password):
 def get_user(username: str):
     with MongoClient(settings.MONGODB_URL) as client:
         db = client.pgrass
-        if (user := db.user.find_one({"_id": username})) is not None:
+        if (user := db.users.find_one({"_id": username})) is not None:
             return user
 
 
