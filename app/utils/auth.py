@@ -5,9 +5,8 @@ from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 
-from app.model.auth import TokenData, User, UserInDB
+from app.model.auth import TokenData, User
 from app.config import settings
-from app.db import db_users
 from pymongo import MongoClient
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
