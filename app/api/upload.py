@@ -1,8 +1,9 @@
 from datetime import datetime
 
 from app.db import get_datetime_to_mongo, db_dataset
+from app.model.auth import User
 from app.model.functions import get_id
-from fastapi import APIRouter, HTTPException, File, UploadFile
+from fastapi import APIRouter, HTTPException, File, UploadFile, Depends
 
 from json import loads
 
@@ -13,15 +14,15 @@ from app.db import db_features
 
 from pydantic import EmailStr
 
+from app.utils.auth import get_current_active_user
+
 router = APIRouter()
+
 
 @router.post("/file", status_code=201)
 async def create_upload_files(
-    first_name:str, 
-    last_name:str, 
-    email:EmailStr, 
-    institution:str,
-    file: UploadFile = File(default=None)
+    file: UploadFile = File(default=None),
+    current_user: User = Depends(get_current_active_user)
 ):
     filename = file.filename
     file_content_type = file.content_type
@@ -48,15 +49,12 @@ async def create_upload_files(
         #hash_file = get_id(
         #        f'{md5_for_file(file_binary)}{email}'
         #    )
-        logger.debug(f'email: {email} obid: {hash_file} ')
+        logger.debug(f'email: {current_user.username} obid: {hash_file} ')
         columns = [name for name in gdf.columns if not name == 'geometry']
         await db_dataset.insert_one({
             '_id':hash_file,
             "file_name": filename,
-            "first_name":first_name, 
-            "last_name":last_name, 
-            "email":email, 
-            "institution":institution,
+            "username":current_user.username, 
             "columns":columns,
             'epsg':epsg,
             'created_at': created_at
@@ -75,10 +73,7 @@ async def create_upload_files(
 
         return {
             "file_name": filename,
-            "first_name":first_name, 
-            "last_name":last_name, 
-            "email":email, 
-            "institution":institution,
+            "username":current_user.username, 
             "columns":columns,
             'epsg':epsg,
             'created_at':created_at
