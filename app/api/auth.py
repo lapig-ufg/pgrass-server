@@ -15,7 +15,7 @@ from pydantic import EmailStr
 router = APIRouter()
 
 @router.post("/new", status_code=201)
-async def create_upload_files(
+async def create_user(
     username: str,
     first_name: str,
     last_name: str,
@@ -50,7 +50,13 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
         )
     access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
-        data={"sub": user.username}, expires_delta=access_token_expires
+        data={
+            "sub": user.username, 
+            'first_name':user.first_name,
+            'last_name':user.last_name ,
+            'email':user.email,
+            'institution':user.institution 
+            }, expires_delta=access_token_expires
     )
     return {"access_token": access_token, "token_type": "bearer"}
 
