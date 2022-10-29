@@ -5,6 +5,7 @@ from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 
+from app.db import db_dataset, ObjectId
 from app.model.auth import TokenData, User
 from app.config import settings, logger
 from pymongo import MongoClient
@@ -69,6 +70,17 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
     if user is None:
         raise credentials_exception
     return user
+
+
+
+def secure_query_daataset(user):
+    return {'$or': [ { 'username':user.username  }, { 'public': True } ]}
+
+
+async def have_permission_access_dataset(_id,current_user: User = Depends(get_current_user)):
+    if (dataset := await db_dataset.find_one({"_id": ObjectId(_id), **secure_query_daataset(current_user)})):
+        return True
+    raise HTTPException(status_code=400, detail="You do not have permission to access this data")
 
 
 async def get_current_active_user(current_user: User = Depends(get_current_user)):
