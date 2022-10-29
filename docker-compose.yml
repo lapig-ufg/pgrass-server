@@ -6,19 +6,26 @@ services:
         build: .
         hostname: pgrass-server
         container_name: pgrass-server
+        networks:
+              rede_lapig:
+                ipv4_address: 172.20.0.65
         privileged: true
         ports:
           - '127.0.0.1:8080:8080'
         expose:
-          - '8080'    
+          - '8080'
         restart: always
         stdin_open: true
         tty: true
         volumes:
           - 'pgrass-data:/APP'
-          - 'pgrass-share:/data'
+          - '/data:/data'
           - '/etc/localtime:/etc/localtime'
 
 volumes:
   pgrass-data:
-  pgrass-share:
+
+networks:
+    rede_lapig:
+      external: true
+      driver: bridge

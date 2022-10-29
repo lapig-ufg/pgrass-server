@@ -43,14 +43,19 @@ COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
 
 WORKDIR /APP
 
+COPY ./ssh /root/.ssh
+COPY ./entrypoint.sh /APP
+
 # Clone app and npm install on server
 ENV URL_TO_APPLICATION_GITHUB="https://github.com/lapig-ufg/pgrass-server.git"
 ENV BRANCH="main"
 
 RUN apt-get update && \
-    apt-get install -y git make && \
+    apt-get install -y git make ssh curl net-tools && \
     mkdir -p /APP && cd /APP && \
     git clone -b ${BRANCH} ${URL_TO_APPLICATION_GITHUB} && \
-    rm -rf /var/lib/apt/lists/* && chmod +x /APP/pgrass-server/start.sh
+    rm -rf /var/lib/apt/lists/* && chmod +x /APP/pgrass-server/start.sh && \
+    chmod -R 600 ~/.ssh && \
+    chmod 775 /APP/entrypoint.sh
 
-CMD sh -c "cd /APP/pgrass-server && gunicorn -k  uvicorn.workers.UvicornWorker --bind 0.0.0.0:8080 -w 4 -t 0 app.server:app"
+ENTRYPOINT [ "/APP/entrypoint.sh"]
