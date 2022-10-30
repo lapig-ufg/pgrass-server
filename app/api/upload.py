@@ -21,7 +21,7 @@ router = APIRouter()
 
 @router.post("/file", status_code=201)
 async def create_upload_files(
-    public: bool = False,
+    public: bool,
     file: UploadFile = File(default=None),
     current_user: User = Depends(get_current_active_user)
 ):
