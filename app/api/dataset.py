@@ -10,7 +10,7 @@ from app.config import logger
 from app.errors import ErrorsRoute
 from app.model.auth import User
 from app.model.models import ListId
-from app.utils.auth import get_current_active_user, secure_query_dataset
+from app.utils.auth import get_current_active_user, have_permission_access_dataset, secure_query_dataset
 
 
 router = APIRouter(route_class=ErrorsRoute)
@@ -39,7 +39,8 @@ async def get_datasets(current_user: User = Depends(get_current_active_user)):
         
 @router.get('/{_id}', response_description="Dataset", response_model=Dataset)
 async def get_dataset(_id,current_user: User = Depends(get_current_active_user)):
-    if (dataset := await db_dataset.find_one({"_id": ObjectId(_id), **secure_query_dataset(current_user)})) is not None:
+    await have_permission_access_dataset(current_user)
+    if (dataset := await db_dataset.find_one({"_id": ObjectId(_id)})) is not None:
         return dataset
     raise HTTPException(status_code=404, detail=f"Dataset {_id} not found")
    
