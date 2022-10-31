@@ -20,7 +20,7 @@ class Dataset(MongoModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias='_id')
     file_name: str
     username: str
-    public: bool
+    public: bool = False
     columns: List[str]
     epsg: int
     created_at: datetime
