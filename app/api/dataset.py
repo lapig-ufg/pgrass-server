@@ -30,7 +30,7 @@ class Dataset(MongoModel):
 @router.get('/', response_description="List all Dataset", response_model=List[ListId])
 async def get_datasets(current_user: User = Depends(get_current_active_user)):
     try:
-        dataset = await db_dataset.find({ **secure_query_dataset(current_user) },{'_id'}).to_list(10000)
+        dataset = await db_dataset.find({ **secure_query_dataset(current_user.username) },{'_id'}).to_list(10000)
         return dataset
     except Exception as e:
         logger.exception(f'Error! {e}')
