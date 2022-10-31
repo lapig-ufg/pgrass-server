@@ -73,7 +73,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
 
 
 
-def secure_query_dataset(user):
+async def secure_query_dataset(user):
     return {'$or': [ { 'username':user.username  }, { 'public': True } ]}
 
 
