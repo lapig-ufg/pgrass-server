@@ -39,7 +39,7 @@ async def get_datasets(current_user: User = Depends(get_current_active_user)):
         
 @router.get('/{_id}', response_description="Dataset", response_model=Dataset)
 async def get_dataset(_id,current_user: User = Depends(get_current_active_user)):
-    await have_permission_access_dataset(_id)
+    await have_permission_access_dataset(_id,current_user.username)
     if (dataset := await db_dataset.find_one({"_id": ObjectId(_id)})) is not None:
         return dataset
     raise HTTPException(status_code=404, detail=f"Dataset {_id} not found")
