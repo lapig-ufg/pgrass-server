@@ -73,12 +73,12 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
 
 
 
-def secure_query_daataset(user):
+def secure_query_dataset(user):
     return {'$or': [ { 'username':user.username  }, { 'public': True } ]}
 
 
 async def have_permission_access_dataset(_id,current_user: User = Depends(get_current_user)):
-    if (dataset := await db_dataset.find_one({"_id": ObjectId(_id), **secure_query_daataset(current_user)})):
+    if (dataset := await db_dataset.find_one({"_id": ObjectId(_id), **secure_query_dataset(current_user)})):
         return True
     raise HTTPException(status_code=400, detail="You do not have permission to access this data")
 
