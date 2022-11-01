@@ -3,6 +3,9 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,rust
 .secrets.toml
 ssh
+poetry.lock
+pyproject.toml
+
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/
