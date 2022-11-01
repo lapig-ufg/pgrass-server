@@ -6,17 +6,17 @@ import {
     ElementRef,
     Output,
     EventEmitter,
-    ChangeDetectorRef
+    ChangeDetectorRef,
+    HostListener, OnChanges, SimpleChanges
 } from '@angular/core';
 import 'ol/ol.css';
 import Map from 'ol/Map';
 import View from 'ol/View';
 import {defaults as defaultInteractions} from 'ol/interaction';
 import * as Proj from 'ol/proj';
-import {defaults as defaultControls} from 'ol/control';
 
+export const DEFAULT_WIDTH = '100%';
 export const DEFAULT_HEIGHT = '500px';
-export const DEFAULT_WIDTH = '500px';
 
 export const DEFAULT_LAT = -34.603490361131385;
 export const DEFAULT_LON = -58.382037891217465;
@@ -26,7 +26,7 @@ export const DEFAULT_LON = -58.382037891217465;
     templateUrl: './ol-map.component.html',
     styleUrls: ['./ol-map.component.scss']
 })
-export class OlMapComponent implements OnInit, AfterViewInit {
+export class OlMapComponent implements OnInit, AfterViewInit, OnChanges {
 
     @Input() lat: number = DEFAULT_LAT;
     @Input() lon: number = DEFAULT_LON;
@@ -34,9 +34,8 @@ export class OlMapComponent implements OnInit, AfterViewInit {
     @Input() zoom: number;
     @Input() width: string | number = DEFAULT_WIDTH;
     @Input() height: string | number = DEFAULT_HEIGHT;
-    @Output() ready = new EventEmitter<any>();
-
-    public target: string = 'map-' + Math.random().toString(36).substring(2);
+    @Output() ready = new EventEmitter<Map>();
+    public target: string = '';
     map: Map;
 
     private mapEl: HTMLElement;
@@ -45,8 +44,13 @@ export class OlMapComponent implements OnInit, AfterViewInit {
 
     }
 
-    ngOnInit(): void {
+    @HostListener('window:resize', ['$event'])
+    onWindowResize(): void {
+        this.map.updateSize();
+    }
 
+    ngOnInit(): void {
+        this.target = 'map-' + Math.random().toString(36).substring(2);
     }
 
     ngAfterViewInit(): void {
@@ -55,23 +59,23 @@ export class OlMapComponent implements OnInit, AfterViewInit {
         this.setSize();
         this.map = new Map({
             target: this.target,
+            interactions: defaultInteractions({altShiftDragRotate: false, pinchRotate: false}),
             view: new View({
                 center: Proj.fromLonLat([this.lon, this.lat]),
                 zoom: this.zoom
-            }),
-            interactions: defaultInteractions({altShiftDragRotate: false, pinchRotate: false}),
-            controls: defaultControls({attribution: false, zoom: false}).extend([]),
+            })
         });
-
-        setTimeout(() => {
-            this.ready.emit(this.map);
-        });
-
         this.map.on('postrender', () => {
             self.loading = false;
         });
-
         this.cdRef.detectChanges();
+        setTimeout(() => {
+            this.ready.emit(this.map);
+        });
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        console.log(changes);
     }
 
     setSize(): void {
@@ -95,6 +99,7 @@ export class OlMapComponent implements OnInit, AfterViewInit {
     public setControl(control: any): void {
         this.map.addControl(control);
     }
+
     coerceCssPixelValue(value: any): string {
         const cssUnitsPattern = /([A-Za-z%]+)$/;
         if (value == null) {
@@ -102,6 +107,5 @@ export class OlMapComponent implements OnInit, AfterViewInit {
         }
         return cssUnitsPattern.test(value) ? value : `${value}px`;
     }
-
 }
 

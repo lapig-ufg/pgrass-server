@@ -1,0 +1,19 @@
+<div class="flex flex-col flex-auto min-w-0">
+
+    <!-- Main -->
+    <div class="flex-auto p-2 sm:p-12">
+
+        <!-- CONTENT GOES HERE -->
+        <div>
+            <ol-map [lat]="-16.6958288" [lon]="-49.4443537" [zoom]="4.6" [height]="'50vh'" >
+                <ol-control class="mobileHide" control="FullScreen"></ol-control>
+                <ol-control control="ScaleLine" [options]="scaleOptions"></ol-control>
+                <ol-control control="Zoom"></ol-control>
+                <ol-control control="zoomslider"></ol-control>
+                <ol-control control="attribution" [options]="{collapsible: true}"></ol-control>
+                <ol-layer *ngFor="let layer of layers" [layer]="layer"></ol-layer>
+            </ol-map>
+        </div>
+    </div>
+
+</div>
