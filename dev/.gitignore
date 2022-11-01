@@ -5,6 +5,7 @@
 ssh
 poetry.lock
 pyproject.toml
+settings.toml
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
