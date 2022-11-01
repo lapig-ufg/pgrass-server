@@ -49,6 +49,7 @@ def created_routes(app):
     app.include_router(
         upload.router, 
         prefix='/api/upload', 
+        dependencies=[Depends(get_current_user)],
         tags=['Upload Files']
         )
     return app
