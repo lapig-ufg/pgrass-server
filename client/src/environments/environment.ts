@@ -4,7 +4,7 @@
 
 export const environment = {
     production: false,
-    apiUrl: 'https://dev-pgrass.lapig.iesa.ufg.br'
+    apiUrl: 'http://localhost:8080'
 };
 
 /*

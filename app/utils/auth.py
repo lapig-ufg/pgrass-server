@@ -6,7 +6,7 @@ from jose import JWTError, jwt
 from passlib.context import CryptContext
 
 from app.db import db_dataset, ObjectId
-from app.model.auth import TokenData, User
+from .app.model.auth import TokenData, User
 from app.config import settings, logger
 from pymongo import MongoClient
 

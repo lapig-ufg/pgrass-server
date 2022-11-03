@@ -4,6 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
+from fastapi.middleware.cors import CORSMiddleware
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from fastapi.templating import Jinja2Templates
 from app.config import logger, settings
@@ -15,6 +16,21 @@ from app.config import start_logger
 start_logger()
 
 app = FastAPI()
+origins = [
+    "*",
+    "http://127.0.0.1:8000",
+    "http://localhost:4200",
+    "http://localhost:8000"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 app = created_routes(app)
 
 angular_path =  Path('../pgrass-client/dist/fuse').resolve()
@@ -43,6 +59,7 @@ async def http_exception_handler(request, exc):
                                                      "info":'',
                                                      "status": start_code, 
                                                      "message": exc.detail})
+
 
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request, exc):

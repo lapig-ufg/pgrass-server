@@ -1,47 +1,20 @@
 from datetime import timedelta
-from typing import Dict
-
 from fastapi import Depends, APIRouter, HTTPException, status, Query
-
-from typing import Optional
 from fastapi.security import OAuth2PasswordRequestForm
 
-from app.model.auth import Token
+from app.model.auth import Token, User
 from app.utils.auth import authenticate_user, create_access_token
 from app.config import settings
 from app.db import db_users
-from app.utils.auth import get_password_hash
-
-from pydantic import EmailStr
 
 router = APIRouter()
 
 @router.post("/signup", summary="Create new user", status_code=201)
-async def create_user(
-    username: str,
-    first_name: str,
-    last_name: str,
-    email: EmailStr,
-    institution: str,
-    properties: Dict,
-    password: Optional[str] =   Query(None, min_length=6)
-):
-    if password == None:
-        raise HTTPException(400,'Passowd nao informado') 
-    await db_users.insert_one({
-        '_id': username,
-        'username': username,
-        'first_name': first_name,
-        'last_name': last_name,
-        'email': email,
-        'hashed_password': get_password_hash(password),
-        'institution': institution,
-        'disabled': False,
-        'properties': properties
-        })
-    return {'username': username,
-        'first_name': first_name,
-        'last_name': last_name}
+async def create_user(user: User):
+    if user.password == None:
+        raise HTTPException(400,'Passowd nao informada')
+    await db_users.insert_one(**user.mongo())
+    return user
 
 @router.post('/login', summary="Create access and refresh tokens for user", response_model=Token)
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):

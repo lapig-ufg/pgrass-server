@@ -18,4 +18,4 @@ services:
           - '../:/APP/pgrass-server'
           - './data/:/data'
           - '/etc/localtime:/etc/localtime'
-          - './env-example:/APP/.env'
+          - './.env:/APP/.env'

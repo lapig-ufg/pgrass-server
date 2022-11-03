@@ -11,9 +11,8 @@ def created_routes(app):
     
     app.include_router(
         auth.router, 
-        prefix='/auth',
+        prefix='/api/auth',
         tags=['Auth']
-        
         )
     
     app.include_router(
