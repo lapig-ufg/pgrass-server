@@ -3,8 +3,7 @@
 ###############################################
 FROM python:3.10-slim as python-base
 
-ENV LAPIG_ENV=${LAPIG_ENV} \
-    PYTHONUNBUFFERED=1 \
+ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PIP_NO_CACHE_DIR=off \
     PIP_DISABLE_PIP_VERSION_CHECK=on \
@@ -14,8 +13,7 @@ ENV LAPIG_ENV=${LAPIG_ENV} \
     POETRY_VIRTUALENVS_IN_PROJECT=true \
     POETRY_NO_INTERACTION=1 \
     PYSETUP_PATH="/opt/pysetup" \
-    VENV_PATH="/opt/pysetup/.venv"\
-    PYTHONBREAKPOINT="web_pdb.set_trace"
+    VENV_PATH="/opt/pysetup/.venv"
 
 # prepend poetry and venv to path
 ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
@@ -33,7 +31,7 @@ WORKDIR $PYSETUP_PATH
 COPY poetry.lock pyproject.toml ./
 
 # install runtime deps - uses $POETRY_VIRTUALENVS_IN_PROJECT internally
-RUN poetry install --no-dev --no-interaction --no-ansi
+RUN poetry install 
 
 ###############################################
 # Production Image
@@ -43,19 +41,11 @@ COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
 
 WORKDIR /APP
 
-COPY ./ssh /root/.ssh
-COPY ./entrypoint.sh /APP
-
 # Clone app and npm install on server
 ENV URL_TO_APPLICATION_GITHUB="https://github.com/lapig-ufg/pgrass-server.git"
 ENV BRANCH="main"
 
-RUN apt-get update && \
-    apt-get install -y git make ssh curl net-tools && \
-    mkdir -p /APP && cd /APP && \
-    git clone -b ${BRANCH} ${URL_TO_APPLICATION_GITHUB} && \
-    rm -rf /var/lib/apt/lists/* && chmod +x /APP/pgrass-server/start.sh && \
-    chmod -R 600 ~/.ssh && \
-    chmod 775 /APP/entrypoint.sh
+RUN apt-get update && apt-get install -y git && mkdir -p /APP && cd /APP && git clone -b ${BRANCH} ${URL_TO_APPLICATION_GITHUB} && \
+    rm -rf /var/lib/apt/lists/* && chmod +x /APP/pgrass-server/start.sh
 
-ENTRYPOINT [ "/APP/entrypoint.sh"]
+CMD sh -c "cd /APP/pgrass-server && gunicorn -k  uvicorn.workers.UvicornWorker --bind 0.0.0.0:8080 -w 4 -t 0 app.server:app"
