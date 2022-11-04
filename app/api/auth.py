@@ -1,20 +1,28 @@
+
 from datetime import timedelta
-from fastapi import Depends, APIRouter, HTTPException, status, Query
 from fastapi.security import OAuth2PasswordRequestForm
 
-from app.model.auth import Token, User
+from fastapi import Depends, APIRouter, HTTPException, status
+
+
+from fastapi.security import OAuth2PasswordRequestForm
+
+from app.model.auth import CreateUser, Token, User
 from app.utils.auth import authenticate_user, create_access_token
 from app.config import settings
 from app.db import db_users
 
+
+
 router = APIRouter()
 
+
 @router.post("/signup", summary="Create new user", status_code=201)
-async def create_user(user: User):
-    if user.password == None:
-        raise HTTPException(400,'Passowd nao informada')
-    await db_users.insert_one(**user.mongo())
-    return user
+async def create_user(new_user: CreateUser):
+    if len(new_user.password) <= 6 :
+        raise HTTPException(400,'O password tem que ter mais de 6 caracter')
+    await db_users.insert_one(new_user.mongo())
+    return new_user
 
 @router.post('/login', summary="Create access and refresh tokens for user", response_model=Token)
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):

@@ -3,33 +3,25 @@ from datetime import datetime, timedelta
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
-from passlib.context import CryptContext
+
 
 from app.db import db_dataset, ObjectId
-from .app.model.auth import TokenData, User
+from app.model.auth import TokenData, User
 from app.config import settings, logger
+from app.utils.password import verify_password
 from pymongo import MongoClient
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/token")
 
-def verify_password(plain_password, hashed_password):
-    return pwd_context.verify(plain_password, hashed_password)
-
-
-def get_password_hash(password):
-    return pwd_context.hash(password)
 
 
 def get_user(username: str):
     with MongoClient(settings.MONGODB_URL) as client:
         db = client.pgrass
         if (user := db.users.find_one({"_id": username})) is not None:
-            
-            user['id'] = user.pop('_id')
-            logger.debug(user)
-            return User(**user)
+            return User.from_mongo(user)
 
 
 def authenticate_user(username: str, password: str):
