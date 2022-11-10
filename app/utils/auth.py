@@ -6,7 +6,7 @@ from jose import JWTError, jwt
 
 
 from app.db import db_dataset, ObjectId
-from app.model.auth import TokenData, User
+from app.model.auth import TokenData, User, UserInDB
 from app.config import settings, logger
 from app.utils.password import verify_password
 from pymongo import MongoClient
@@ -20,8 +20,8 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/token")
 def get_user(username: str):
     with MongoClient(settings.MONGODB_URL) as client:
         db = client.pgrass
-        if (user := db.users.find_one({"_id": username})) is not None:
-            return User.from_mongo(user)
+        if (user := db.users.find_one({"$or":[{"username": username},{"email": username}]})) is not None:
+            return UserInDB.from_mongo(user)
 
 
 def authenticate_user(username: str, password: str):
@@ -61,7 +61,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
     user = get_user(username=token_data.username)
     if user is None:
         raise credentials_exception
-    return user
+    return user.get_user()
 
 
 
