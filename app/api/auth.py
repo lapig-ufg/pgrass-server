@@ -6,7 +6,7 @@ from fastapi import Depends, APIRouter, HTTPException, status
 
 from fastapi.security import OAuth2PasswordRequestForm
 
-from app.model.auth import CreateUser, Token, User
+from app.model.auth import CreateUser, Token, User, TokenUI
 from app.utils.auth import authenticate_user, create_access_token
 from app.config import settings
 from app.db import db_users
@@ -25,7 +25,7 @@ async def create_user(new_user: CreateUser):
     await db_users.insert_one(new_user.mongo())
     return new_user
 
-@router.post('/login', summary="Create access and refresh tokens for user", response_model=Token)
+@router.post('/login', summary="Create access and refresh tokens for user", response_model=TokenUI)
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
     try:
         user = authenticate_user(form_data.username, form_data.password)
@@ -45,7 +45,7 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
                 'institution':user.institution, 
                 }, expires_delta=access_token_expires
         )
-        return {"access_token": access_token, "token_type": "bearer","user":user }
+        return {"access_token": access_token, "token_type": "bearer","user":user.get_user() }
     except Exception as e:
         raise HTTPException(500,f'{e}')
 

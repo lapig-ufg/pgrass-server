@@ -68,8 +68,8 @@ class User(MongoModel):
     disabled: bool | None = None
     institution: str | None = None
     full_name: str | None = None
-    avatar: Optional[str] = None
-    status: Optional[str] = None
+    avatar: Optional[str]
+    status: Optional[str]
     properties: Dict = dict()
     
     def __init__(self, *a, **kw):
@@ -94,4 +94,9 @@ class User(MongoModel):
 class Token(BaseModel):
     access_token: str
     token_type: str
-    user:Dict
+
+class TokenUI(BaseModel):
+    access_token: str
+    token_type: str
+    user: Dict
+
