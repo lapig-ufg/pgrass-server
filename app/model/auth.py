@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, Optional
 from pydantic import BaseModel, EmailStr
 
 from bson import ObjectId
@@ -63,20 +63,19 @@ class User(MongoModel):
     firstName: str
     lastName: str
     email: EmailStr
+    hashed_password: str
     agreements: bool | None = None
     disabled: bool | None = None
     institution: str | None = None
     full_name: str | None = None
+    avatar: Optional[str] = None
+    status: Optional[str] = None
     properties: Dict = dict()
     
     def __init__(self, *a, **kw):
         super().__init__(*a, **kw)
         self.id = self.username
         self.full_name = f"{self.firstName} {self.lastName}"
-
-
-class UserInDB(User):
-    hashed_password: str
 
     def get_user(self, **kwargs):
         exclude_unset = kwargs.pop('exclude_unset', True)
@@ -88,11 +87,11 @@ class UserInDB(User):
             **kwargs,
         )
         parsed.pop('hashed_password')
-        return User(**parsed)
+        return parsed
         
 
 
 class Token(BaseModel):
     access_token: str
     token_type: str
-    user:User
+    user:Dict
