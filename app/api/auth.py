@@ -43,8 +43,8 @@ async def login_for_access_token(form_data: Login):
         access_token = create_access_token(
             data={
                 "sub": user.username, 
-                'first_name':user.first_name,
-                'last_name':user.last_name ,
+                'firstName':user.firstName,
+                'lastName':user.lastName ,
                 'email':user.email,
                 'institution':user.institution, 
                 'rememberMe':form_data.rememberMe
@@ -67,8 +67,8 @@ async def get_token(form_data: OAuth2PasswordRequestForm = Depends()):
     access_token = create_access_token(
         data={
             "sub": user.username, 
-            'first_name':user.first_name,
-            'last_name':user.last_name ,
+            'firstName':user.firstName,
+            'lastName':user.lastName ,
             'email':user.email,
             'institution':user.institution 
             }, expires_delta=access_token_expires
