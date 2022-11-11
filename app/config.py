@@ -17,9 +17,10 @@ rotation='500 MB'
 if os.environ.get("LAPIG_ENV") == 'production':
     logger.remove()
     logger.add(sys.stderr,level='INFO', format=confi_format)
-    
+    logger.add('/data/logs/server/server.log', rotation=rotation, level="DEBUG")
+else:   
+    logger.add('/data/logs/server/server.log', rotation=rotation, level="INFO")
 
-logger.add('/data/logs/server/server.log', rotation=rotation, level="INFO")
 logger.add('/data/logs/server/server_WARNING.log', level="WARNING", rotation=rotation)
 
 settings = Dynaconf(

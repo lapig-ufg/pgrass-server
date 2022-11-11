@@ -10,6 +10,7 @@ from app.errors import ErrorsRoute
 from app.model.auth import User
 from app.model.models import Feature, ListId
 from app.utils.auth import get_current_active_user, have_permission_access_dataset
+from app.config import logger
 
 router = APIRouter(route_class=ErrorsRoute)
 
@@ -18,6 +19,7 @@ router = APIRouter(route_class=ErrorsRoute)
             response_description="List all features db_dataset", 
             response_model=List[ListId])
 async def get_features(dataset_id, current_user: User = Depends(get_current_active_user)):
+    logger.debug(f"{dataset_id},{current_user}")
     await have_permission_access_dataset(dataset_id,current_user.username)
     if (features := await db_features.find(
         {'dataset_id':ObjectId(dataset_id),'municipally': {'$exists': True}},{'_id':1}).to_list(10000)):
