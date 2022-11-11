@@ -1,4 +1,4 @@
-from typing import List
+from typing import Dict, List
 from bson import ObjectId
 
 
@@ -29,12 +29,12 @@ async def get_features(dataset_id, current_user: User = Depends(get_current_acti
 
 @router.get('/geopandas/dataset/{dataset_id}',
             response_description="features to geopandas db_dataset", 
-            response_model=List[ListId])
+            response_model=List[Dict])
 async def get_features_geopandas(dataset_id, current_user: User = Depends(get_current_active_user)):
     logger.debug(f"{dataset_id},{current_user}")
     await have_permission_access_dataset(dataset_id,current_user.username)
     if (features := await db_features.find(
-        {'dataset_id':ObjectId(dataset_id),'municipally': {'$exists': True}}).to_list(10000)):
+        {'dataset_id':ObjectId(dataset_id),'municipally': {'$exists': True}},{}).to_list(10000)):
         return features
     raise HTTPException(status_code=404, detail=f"Feature dataset {dataset_id} has not been processed yet, please try later")
 
