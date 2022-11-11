@@ -15,6 +15,11 @@ from pydantic import BaseModel
 
 router = APIRouter()
 
+class Login(BaseModel):
+    username: str
+    password: str
+
+
 
 @router.post("/signup", summary="Create new user", status_code=201)
 async def create_user(new_user: CreateUser):
@@ -26,7 +31,7 @@ async def create_user(new_user: CreateUser):
     return new_user
 
 @router.post('/login', summary="Create access and refresh tokens for user", response_model=TokenUI)
-async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
+async def login_for_access_token(form_data: Login):
     try:
         user = authenticate_user(form_data.username, form_data.password)
         if not user:
