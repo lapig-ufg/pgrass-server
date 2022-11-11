@@ -27,6 +27,19 @@ async def get_features(dataset_id, current_user: User = Depends(get_current_acti
     raise HTTPException(status_code=404, detail=f"Feature dataset {dataset_id} has not been processed yet, please try later")
 
 
+@router.get('/geopandas/dataset/{dataset_id}',
+            response_description="List all features db_dataset", 
+            response_model=List[ListId])
+async def get_features_geopandas(dataset_id, current_user: User = Depends(get_current_active_user)):
+    logger.debug(f"{dataset_id},{current_user}")
+    await have_permission_access_dataset(dataset_id,current_user.username)
+    if (features := await db_features.find(
+        {'dataset_id':ObjectId(dataset_id),'municipally': {'$exists': True}}).to_list(10000)):
+        return features
+    raise HTTPException(status_code=404, detail=f"Feature dataset {dataset_id} has not been processed yet, please try later")
+
+
+
 @router.get(
     "/{_id}", response_description="Get a single feature", response_model=Feature
 )
