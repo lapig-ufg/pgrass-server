@@ -28,7 +28,7 @@ async def get_features(dataset_id, current_user: User = Depends(get_current_acti
 
 
 @router.get('/geopandas/dataset/{dataset_id}',
-            response_description="List all features db_dataset", 
+            response_description="features to geopandas db_dataset", 
             response_model=List[ListId])
 async def get_features_geopandas(dataset_id, current_user: User = Depends(get_current_active_user)):
     logger.debug(f"{dataset_id},{current_user}")
