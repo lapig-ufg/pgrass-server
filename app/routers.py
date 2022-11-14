@@ -4,6 +4,7 @@ from .api import upload
 from .api import dataset
 from .api import collections
 from .api import auth
+from .api import user
 from app.utils.auth import get_current_user
 from fastapi import Depends
 
@@ -14,15 +15,16 @@ def created_routes(app):
         prefix='/api/auth',
         tags=['Auth']
         )
-    
+
     app.include_router(
         collections.router, 
         prefix='/api/collections', 
         dependencies=[Depends(get_current_user)],
         tags=['Collections']
-        
+
         )
-    
+
+
     app.include_router(
         dataset.router, 
         prefix='/api/dataset',
@@ -51,4 +53,12 @@ def created_routes(app):
         dependencies=[Depends(get_current_user)],
         tags=['Upload Files']
         )
+
+    app.include_router(
+        user.router,
+        prefix='/auth/user',
+        dependencies=[Depends(get_current_user)],
+        tags=['user']
+
+    )
     return app

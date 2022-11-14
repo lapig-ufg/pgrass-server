@@ -11,16 +11,16 @@
     <!-- Navigation header hook -->
     <ng-container fuseVerticalNavigationContentHeader>
         <!-- Logo -->
-        <div class="flex items-center h-20 p-6 pb-0">
+        <div  class="flex items-center h-15 p-6 pb-6" style="justify-content: center">
             <!-- Light version -->
             <img
-                class="dark:hidden w-30"
-                src="assets/images/logo/logo-text.svg"
+                class="dark:hidden w-8"
+                src="assets/images/logo/logo.svg"
                 alt="Logo image">
             <!-- Dark version -->
             <img
-                class="hidden dark:flex w-30"
-                src="assets/images/logo/logo-text-on-dark.svg"
+                class="hidden dark:flex w-8"
+                src="assets/images/logo/logo.svg"
                 alt="Logo image">
         </div>
     </ng-container>
@@ -42,15 +42,6 @@
             <languages></languages>
             <fuse-fullscreen class="hidden md:block"></fuse-fullscreen>
             <search [appearance]="'bar'"></search>
-            <shortcuts></shortcuts>
-            <messages></messages>
-            <notifications></notifications>
-            <button
-                class="lg:hidden"
-                mat-icon-button
-                (click)="quickChat.toggle()">
-                <mat-icon [svgIcon]="'heroicons_outline:chat-alt-2'"></mat-icon>
-            </button>
             <user></user>
         </div>
     </div>
@@ -64,10 +55,6 @@
 
     <!-- Footer -->
     <div class="relative flex flex-0 items-center justify-start w-full h-14 px-4 md:px-6 z-49 border-t bg-card dark:bg-transparent print:hidden">
-        <span class="font-medium text-secondary">Fuse &copy; {{currentYear}}</span>
+        <span class="font-medium text-secondary">General Retrieval and Analysis and Series Platform - pGrass &copy; {{currentYear}}</span>
     </div>
-
 </div>
-
-<!-- Quick chat -->
-<quick-chat #quickChat="quickChat"></quick-chat>

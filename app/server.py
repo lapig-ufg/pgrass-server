@@ -48,8 +48,8 @@ async def http_exception_handler(request, exc):
     start_code = exc.status_code
     if request.url.path.split('/')[1] in ['api','auth']:
         return JSONResponse(content={
-            'status_code':start_code,
-            'menssge':exc.detail
+            'status_code': start_code,
+            'message': exc.detail
         },status_code= start_code)
     base_url = request.base_url
     if settings.HTTPS:

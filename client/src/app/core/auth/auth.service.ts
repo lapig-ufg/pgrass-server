@@ -28,16 +28,14 @@ export class AuthService
     /**
      * Setter & getter for access token
      */
-    set accessToken(token: string)
-    {
-        localStorage.setItem('accessToken', token);
-    }
-
     get accessToken(): string
     {
         return localStorage.getItem('accessToken') ?? '';
     }
-
+    set accessToken(token: string)
+    {
+        localStorage.setItem('accessToken', token);
+    }
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
@@ -75,18 +73,16 @@ export class AuthService
             return throwError('User is already logged in.');
         }
 
-        return this._httpClient.post('api/auth/sign-in', credentials).pipe(
+        return this._httpClient.post(this._apiUrl + '/api/auth/login', credentials).pipe(
             switchMap((response: any) => {
 
                 // Store the access token in the local storage
-                this.accessToken = response.accessToken;
+                this.accessToken = response.access_token;
 
                 // Set the authenticated flag to true
                 this._authenticated = true;
-
                 // Store the user on the user service
                 this._userService.user = response.user;
-
                 // Return a new observable with the response
                 return of(response);
             })

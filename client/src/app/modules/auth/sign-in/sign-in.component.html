@@ -35,17 +35,17 @@
 
                 <!-- Email field -->
                 <mat-form-field class="w-full">
-                    <mat-label>Email address</mat-label>
+                    <mat-label>Email address or username</mat-label>
                     <input
                         id="email"
                         matInput
-                        [formControlName]="'email'">
-                    <mat-error *ngIf="signInForm.get('email').hasError('required')">
-                        Email address is required
+                        [formControlName]="'username'">
+                    <mat-error *ngIf="signInForm.get('username').hasError('required')">
+                        Email address or username is required
                     </mat-error>
-                    <mat-error *ngIf="signInForm.get('email').hasError('email')">
-                        Please enter a valid email address
-                    </mat-error>
+<!--                    <mat-error *ngIf="signInForm.get('email').hasError('email')">-->
+<!--                        Please enter a valid email address-->
+<!--                    </mat-error>-->
                 </mat-form-field>
 
                 <!-- Password field -->
@@ -77,17 +77,17 @@
                 </mat-form-field>
 
                 <!-- Actions -->
-                <div class="inline-flex items-end justify-between w-full mt-1.5">
-                    <mat-checkbox
-                        [color]="'primary'"
-                        [formControlName]="'rememberMe'">
-                        Remember me
-                    </mat-checkbox>
-                    <a
-                        class="text-md font-medium text-primary-500 hover:underline"
-                        [routerLink]="['/forgot-password']">Forgot password?
-                    </a>
-                </div>
+<!--                <div class="inline-flex items-end justify-between w-full mt-1.5">-->
+<!--                    <mat-checkbox-->
+<!--                        [color]="'primary'"-->
+<!--                        [formControlName]="'rememberMe'">-->
+<!--                        Remember me-->
+<!--                    </mat-checkbox>-->
+<!--                    <a-->
+<!--                        class="text-md font-medium text-primary-500 hover:underline"-->
+<!--                        [routerLink]="['/forgot-password']">Forgot password?-->
+<!--                    </a>-->
+<!--                </div>-->
 
                 <!-- Submit button -->
                 <button
@@ -105,15 +105,15 @@
                         [mode]="'indeterminate'"></mat-progress-spinner>
                 </button>
 
-                <!-- Separator -->
-                <div class="flex items-center mt-8">
-                    <div class="flex-auto mt-px border-t"></div>
-                    <div class="mx-2 text-secondary">Or continue with</div>
-                    <div class="flex-auto mt-px border-t"></div>
-                </div>
+<!--                &lt;!&ndash; Separator &ndash;&gt;-->
+<!--                <div class="flex items-center mt-8">-->
+<!--                    <div class="flex-auto mt-px border-t"></div>-->
+<!--                    <div class="mx-2 text-secondary">Or continue with</div>-->
+<!--                    <div class="flex-auto mt-px border-t"></div>-->
+<!--                </div>-->
 
-                <!-- Single sign-on buttons -->
-                <div class="flex items-center mt-8 space-x-4">
+<!--                &lt;!&ndash; Single sign-on buttons &ndash;&gt;-->
+<!--                <div class="flex items-center mt-8 space-x-4">-->
 <!--                    <button-->
 <!--                        class="flex-auto"-->
 <!--                        type="button"-->
@@ -130,15 +130,15 @@
 <!--                            class="icon-size-5"-->
 <!--                            [svgIcon]="'feather:twitter'"></mat-icon>-->
 <!--                    </button>-->
-                    <button
-                        class="flex-auto"
-                        type="button"
-                        mat-stroked-button>
-                        <mat-icon
-                            class="icon-size-5"
-                            [svgIcon]="'feather:github'"></mat-icon>
-                    </button>
-                </div>
+<!--                    <button-->
+<!--                        class="flex-auto"-->
+<!--                        type="button"-->
+<!--                        mat-stroked-button>-->
+<!--                        <mat-icon-->
+<!--                            class="icon-size-5"-->
+<!--                            [svgIcon]="'feather:github'"></mat-icon>-->
+<!--                    </button>-->
+<!--                </div>-->
             </form>
         </div>
     </div>
@@ -166,30 +166,28 @@
         <!-- Content -->
         <div class="z-10 relative w-full max-w-2xl">
             <div class="text-7xl font-bold leading-none text-gray-100">
-                <div>Welcome to</div>
-                <div>our community</div>
+                <div>Welcome to pGrass</div>
             </div>
             <div class="mt-6 text-lg tracking-tight leading-6 text-gray-400">
-                Fuse helps developers to build organized and well coded dashboards full of beautiful and rich modules.
-                Join us and start building your application today.
+                General Retrieval and Analysis and Series Platform
             </div>
-            <div class="flex items-center mt-8">
-                <div class="flex flex-0 items-center -space-x-1.5">
-                    <img
-                        class="flex-0 w-10 h-10 rounded-full ring-4 ring-offset-1 ring-gray-800 ring-offset-gray-800 object-cover"
-                        src="assets/images/avatars/female-18.jpg">
-                    <img
-                        class="flex-0 w-10 h-10 rounded-full ring-4 ring-offset-1 ring-gray-800 ring-offset-gray-800 object-cover"
-                        src="assets/images/avatars/female-11.jpg">
-                    <img
-                        class="flex-0 w-10 h-10 rounded-full ring-4 ring-offset-1 ring-gray-800 ring-offset-gray-800 object-cover"
-                        src="assets/images/avatars/male-09.jpg">
-                    <img
-                        class="flex-0 w-10 h-10 rounded-full ring-4 ring-offset-1 ring-gray-800 ring-offset-gray-800 object-cover"
-                        src="assets/images/avatars/male-16.jpg">
-                </div>
-                <div class="ml-4 font-medium tracking-tight text-gray-400">More than 17k people joined us, it's your turn</div>
-            </div>
+<!--            <div class="flex items-center mt-8">-->
+<!--                <div class="flex flex-0 items-center -space-x-1.5">-->
+<!--                    <img-->
+<!--                        class="flex-0 w-10 h-10 rounded-full ring-4 ring-offset-1 ring-gray-800 ring-offset-gray-800 object-cover"-->
+<!--                        src="assets/images/avatars/female-18.jpg">-->
+<!--                    <img-->
+<!--                        class="flex-0 w-10 h-10 rounded-full ring-4 ring-offset-1 ring-gray-800 ring-offset-gray-800 object-cover"-->
+<!--                        src="assets/images/avatars/female-11.jpg">-->
+<!--                    <img-->
+<!--                        class="flex-0 w-10 h-10 rounded-full ring-4 ring-offset-1 ring-gray-800 ring-offset-gray-800 object-cover"-->
+<!--                        src="assets/images/avatars/male-09.jpg">-->
+<!--                    <img-->
+<!--                        class="flex-0 w-10 h-10 rounded-full ring-4 ring-offset-1 ring-gray-800 ring-offset-gray-800 object-cover"-->
+<!--                        src="assets/images/avatars/male-16.jpg">-->
+<!--                </div>-->
+<!--                <div class="ml-4 font-medium tracking-tight text-gray-400">More than 17k people joined us, it's your turn</div>-->
+<!--            </div>-->
         </div>
     </div>
 </div>

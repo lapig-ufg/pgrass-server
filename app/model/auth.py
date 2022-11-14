@@ -88,6 +88,16 @@ class User(MongoModel):
         )
         parsed.pop('hashed_password')
         return parsed
+
+    def get_user_auth(self, **kwargs):
+        by_alias = kwargs.pop('by_alias', True)
+
+        parsed = self.dict(
+            by_alias=by_alias,
+            **kwargs,
+        )
+        parsed.pop('hashed_password')
+        return parsed
         
 
 

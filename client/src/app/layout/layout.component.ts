@@ -8,6 +8,7 @@ import { FusePlatformService } from '@fuse/services/platform';
 import { FUSE_VERSION } from '@fuse/version';
 import { Layout } from 'app/layout/layout.types';
 import { AppConfig } from 'app/core/config/app.config';
+import {UserService} from 'app/core/user/user.service';
 
 @Component({
     selector     : 'layout',
