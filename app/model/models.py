@@ -1,7 +1,6 @@
 from datetime import datetime
 from enum import Enum
-from typing import Dict, List, Union
-
+from typing import Dict, List, Union, Optional
 from pydantic import Field, HttpUrl
 from pymongo import MongoClient
 from app.config import settings, logger
@@ -41,15 +40,15 @@ CollectionsEnum  = make_enum('CollectionsEnum', create_enum_collections())
 class Feature(MongoModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias='_id')
     dataset_id: PyObjectId
-    biome: str
-    municipally: str
-    state: str
-    point_id: PyObjectId
-    lat: float
-    lon: float
+    biome: Optional[str] | None = None
+    municipally: Optional[str] | None = None
+    state: Optional[str] | None = None
+    point_id: Optional[PyObjectId] | None = None
+    lat:  Optional[float] | None = None
+    lon: Optional[float] | None = None
     geometry: dict
     epsg: int
-    properties: Dict
+    properties: Optional[Dict]
 
     def __init__(self, *a, **kw):
         super().__init__(*a, **kw)

@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { forkJoin, Observable } from 'rxjs';
-import {DatasetService} from 'app/modules/admin/main/dataset/dataset.service';
+import {DatasetsService} from 'app/modules/admin/datasets/datasets.service';
 
 @Injectable({
     providedIn: 'root'
 })
-export class MainResolvers implements Resolve<any>
+export class DatasetsResolver implements Resolve<any>
 {
     /**
      * Constructor
      */
     constructor(
-        private datasetService: DatasetService,
+        private datasetService: DatasetsService,
     )
     {
     }

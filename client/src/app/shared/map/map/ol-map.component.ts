@@ -75,7 +75,7 @@ export class OlMapComponent implements OnInit, AfterViewInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        console.log(changes);
+        // console.log(changes);
     }
 
     setSize(): void {

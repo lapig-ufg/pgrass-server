@@ -27,7 +27,6 @@ async def create_upload_files(
 ):
     filename = file.filename
     file_content_type = file.content_type
-    
     try:
         gdf = read_file(file)
     except Exception as e:

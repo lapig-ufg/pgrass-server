@@ -24,7 +24,7 @@ async def get_features(dataset_id, current_user: User = Depends(get_current_acti
     if (features := await db_features.find(
         {'dataset_id':ObjectId(dataset_id),'municipally': {'$exists': True}},{'_id':1}).to_list(1000)):
         return features
-    raise HTTPException(status_code=404, detail=f"Feature dataset {dataset_id} has not been processed yet, please try later")
+    raise HTTPException(status_code=404, detail=f"Feature dataset-datail {dataset_id} has not been processed yet, please try later")
 
 
 @router.get('/geopandas/dataset/{dataset_id}',
@@ -36,7 +36,7 @@ async def get_features_geopandas(dataset_id, current_user: User = Depends(get_cu
     if (features := await db_features.find(
         {'dataset_id':ObjectId(dataset_id),'municipally': {'$exists': True}},{}).to_list(10000)):
         return features
-    raise HTTPException(status_code=404, detail=f"Feature dataset {dataset_id} has not been processed yet, please try later")
+    raise HTTPException(status_code=404, detail=f"Feature dataset-datail {dataset_id} has not been processed yet, please try later")
 
 
 

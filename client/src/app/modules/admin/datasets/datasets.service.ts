@@ -1,16 +1,15 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {map, Observable, ReplaySubject, tap} from 'rxjs';
-import {Dataset} from './dataset.types';
-import {environment} from '../../../../../environments/environment';
+import {Dataset} from './datasets.types';
+import {environment} from '../../../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
-export class DatasetService {
-    private _dataset: ReplaySubject<Dataset> = new ReplaySubject<Dataset>(1);
+export class DatasetsService {
     private _datasets: ReplaySubject<Dataset[]> = new ReplaySubject<Dataset[]>();
-    private _apiUrl: string = environment.apiUrl + '/api/dataset';
+    private _apiUrl: string = environment.apiUrl + '/api/datasets';
 
     /**
      * Constructor
@@ -21,8 +20,6 @@ export class DatasetService {
     // -----------------------------------------------------------------------------------------------------
     // @ Accessors
     // -----------------------------------------------------------------------------------------------------
-
-
     /**
      * Setter & getter for user
      *
@@ -52,13 +49,19 @@ export class DatasetService {
         );
     }
     /**
-     * Get dataset by _id
+     * Get dataset-item by _id
      */
     getById(id: string): Observable<Dataset> {
-        return this._httpClient.get<Dataset>(`${this._apiUrl}/${id}`).pipe(
-            tap((user) => {
-                this._dataset.next(user);
-            })
+        return this._httpClient.get<Dataset>(`${this._apiUrl}/get/${id}`).pipe(
+           map(response => response)
+        );
+    }
+    /**
+     * Get dataset-item by _id
+     */
+    countFeatures(id: string): Observable<number> {
+        return this._httpClient.get<number>(`${this._apiUrl}/count-features/${id}`).pipe(
+           map(response => response)
         );
     }
 }

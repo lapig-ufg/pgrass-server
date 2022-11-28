@@ -1,6 +1,6 @@
 from fastapi import Depends, APIRouter, HTTPException, status
 from app.utils.auth import get_user
-
+from app.config import logger
 router = APIRouter()
 
 @router.get("/{username}", summary="Get user by username", status_code=201)
@@ -9,7 +9,7 @@ async def find_user(username: str):
         user = get_user(username)
         _user = {
             'id': user.username,
-            'name': user.firstName + user.lastName,
+            'name': user.firstName + ' ' + user.lastName,
             'email': user.email,
             'institution': user.institution,
             'avatar': user.avatar,
@@ -18,4 +18,5 @@ async def find_user(username: str):
         }
         return _user
     except Exception as e:
+        logger.exception(e)
         raise HTTPException(500, f'{e}')

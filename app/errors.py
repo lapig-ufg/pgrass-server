@@ -2,6 +2,7 @@ from bson.errors import InvalidId
 from fastapi import HTTPException, Request, Response
 from typing import Callable
 from fastapi.routing import APIRoute
+from app.config import logger
 
 class ErrorsRoute(APIRoute):
     def get_route_handler(self) -> Callable:
@@ -10,9 +11,10 @@ class ErrorsRoute(APIRoute):
         async def custom_route_handler(request: Request) -> Response:
             try:
                 response: Response = await original_route_handler(request)
-            except InvalidId  as e:
+            except InvalidId as e:
+                logger.exception(e)
                 raise HTTPException(status_code=400,
-                                     detail='The id informed is not valid, please check the data before sending it to us')
+                                    detail='The id informed is not valid, please check the data before sending it to us')
             return response
 
         return custom_route_handler

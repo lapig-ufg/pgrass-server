@@ -1,5 +1,5 @@
 from typing import Dict, List
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 
 
 from app.db import db_collections
@@ -18,3 +18,4 @@ async def get_collection(collections_id):
     if (collection := await db_collections.find_one({'_id':collections_id})) is not None:
         return collection
     raise HTTPException(status_code=404, detail=f"Base error")
+

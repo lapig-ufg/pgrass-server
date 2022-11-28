@@ -1,0 +1,3 @@
+
+class OauthGithubException(Exception):
+    pass

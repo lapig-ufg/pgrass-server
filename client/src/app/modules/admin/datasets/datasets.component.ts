@@ -1,17 +1,22 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import TileLayer from 'ol/layer/Tile';
 import {XYZ} from 'ol/source';
-import {Dataset} from 'app/modules/admin/main/dataset/dataset.types';
+import {Dataset} from 'app/modules/admin/datasets/datasets.types';
 import {Subject, takeUntil} from 'rxjs';
-import {DatasetService} from './dataset/dataset.service';
+import {DatasetsService} from './datasets.service';
+import {UploaderConfig} from '../../../core/uploader/uploader.types';
+import {AuthService} from '../../../core/auth/auth.service';
+import {environment} from "../../../../environments/environment";
+import {MatDialog} from "@angular/material/dialog";
+import {UploadDatasetDialogComponent} from "./upload-dataset-dialog/upload-dataset-dialog.component";
 
 @Component({
-    selector: 'admin-main',
-    templateUrl: './main.component.html',
-    styleUrls: ['./main.component.scss'],
+    selector: 'admin-datasets',
+    templateUrl: './datasets.component.html',
+    styleUrls: ['./datasets.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class MainComponent implements OnInit {
+export class DatasetsComponent implements OnInit {
     public scaleOptions = {
         units: 'metric',
         bar: true,
@@ -20,12 +25,15 @@ export class MainComponent implements OnInit {
     };
     public layers: any[] = [];
     public datasets: Dataset[] = [];
+
     private unsubscribeAll: Subject<any> = new Subject<any>();
+
     /**
      * Constructor
      */
     constructor(
-        private datasetService: DatasetService
+        private datasetService: DatasetsService,
+        public dialog: MatDialog
     ) {
         this.layers = [
             new TileLayer({
@@ -45,10 +53,25 @@ export class MainComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.loadDatasets();
+    }
+
+    loadDatasets(): void {
         this.datasetService.datasets$
             .pipe(takeUntil(this.unsubscribeAll))
             .subscribe((datasets: Dataset[]) => {
+                console.log('datasets', datasets);
                 this.datasets = datasets;
             });
+    }
+
+    openUploader(): void {
+        const dialogRef = this.dialog.open(UploadDatasetDialogComponent);
+        dialogRef.afterClosed().subscribe((fileCreated) => {
+            if(fileCreated){
+                console.log(fileCreated);
+                this.loadDatasets();
+            }
+        });
     }
 }

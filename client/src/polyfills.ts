@@ -4,7 +4,7 @@
  *
  * This file is divided into 2 sections:
  *   1. Browser polyfills. These are applied before loading ZoneJS and are sorted by browsers.
- *   2. Application imports. Files imported after ZoneJS that should be loaded before your main
+ *   2. Application imports. Files imported after ZoneJS that should be loaded before your datasets
  *      file.
  *
  * The current setup is for so-called "evergreen" browsers; the last versions of browsers that
@@ -23,7 +23,7 @@
  * user can disable parts of macroTask/DomEvents patch by setting following flags
  * because those flags need to be set before `zone.js` being loaded, and webpack
  * will put import in the top of bundle, so user need to create a separate file
- * in this directory (for main: zone-flags.ts), and put the following flags
+ * in this directory (for datasets: zone-flags.ts), and put the following flags
  * into that file, and then add the following code before importing zone.js.
  * import './zone-flags';
  *

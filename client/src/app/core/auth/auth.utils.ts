@@ -151,7 +151,7 @@ export class AuthUtils
      * @param token
      * @private
      */
-    public static _decodeToken(token: string): any
+    static _decodeToken(token: string): any
     {
         // Return if there is no token
         if ( !token )
@@ -202,3 +202,13 @@ export class AuthUtils
         return date;
     }
 }
+
+export const uuid = (parts: number = 6): string => {
+  const stringArr = [];
+  for(let i = 0; i< parts; i++){
+      // eslint-disable-next-line no-bitwise
+    const S4 = (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+    stringArr.push(S4);
+  }
+  return stringArr.join('-');
+};

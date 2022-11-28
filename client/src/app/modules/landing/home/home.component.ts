@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
-    selector     : 'landing-main',
+    selector     : 'landing-datasets',
     templateUrl  : './home.component.html',
     encapsulation: ViewEncapsulation.None
 })

@@ -27,9 +27,9 @@ def created_routes(app):
 
     app.include_router(
         dataset.router, 
-        prefix='/api/dataset',
+        prefix='/api/datasets',
         dependencies=[Depends(get_current_user)],
-        tags=['Dataset']
+        tags=['Datasets']
         )
 
 
@@ -37,7 +37,7 @@ def created_routes(app):
         feature.router, 
         prefix='/api/features', 
         dependencies=[Depends(get_current_user)],
-        tags=['Feature']
+        tags=['Features']
         )
 
     app.include_router(
@@ -51,14 +51,14 @@ def created_routes(app):
         upload.router, 
         prefix='/api/upload', 
         dependencies=[Depends(get_current_user)],
-        tags=['Upload Files']
+        tags=['Upload']
         )
 
     app.include_router(
         user.router,
         prefix='/auth/user',
         dependencies=[Depends(get_current_user)],
-        tags=['user']
+        tags=['Users']
 
     )
     return app

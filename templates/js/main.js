@@ -34,7 +34,7 @@
   	------------------------------------------------------ */  
   	setTimeout(function() {
 
-   	$('.main-content h1').fitText(.8, { minFontSize: '42px', maxFontSize: '94px' });
+   	$('.datasets-content h1').fitText(.8, { minFontSize: '42px', maxFontSize: '94px' });
 
   	}, 100);
 
@@ -50,8 +50,8 @@
    ------------------------------------------------------ */  
    var toggleButton = $('.menu-toggle'),
        nav = $('#menu-nav-wrap'),
-       mainContent = $('#main-404-content'),
-       mainHeader = $('.main-header');
+       mainContent = $('#datasets-404-content'),
+       mainHeader = $('.datasets-header');
 
 	// open-close menu by clicking on the menu icon
 	toggleButton.on('click', function(e){
@@ -98,7 +98,7 @@
    /* --------------------------------------------------- */
 	/*  Vegas Slideshow
 	------------------------------------------------------ */
-	$(".main-content-slides").vegas({
+	$(".datasets-content-slides").vegas({
 		transition: 'fade',
 		transitionDuration: 2500,
 		delay: 5000,
@@ -113,7 +113,7 @@
    /* --------------------------------------------------- */
 	/*  Particle JS
 	------------------------------------------------------ */
-	$('.main-content-particle-js').particleground({
+	$('.datasets-content-particle-js').particleground({
 	    dotColor: '#fff',
 	    lineColor: '#555555',
 	    particleRadius: 6,

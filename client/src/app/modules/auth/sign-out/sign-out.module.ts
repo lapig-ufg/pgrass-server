@@ -5,6 +5,7 @@ import { FuseCardModule } from '@fuse/components/card';
 import { SharedModule } from 'app/shared/shared.module';
 import { AuthSignOutComponent } from 'app/modules/auth/sign-out/sign-out.component';
 import { authSignOutRoutes } from 'app/modules/auth/sign-out/sign-out.routing';
+import {SocialLoginModule} from '@abacritt/angularx-social-login';
 
 @NgModule({
     declarations: [
@@ -14,7 +15,8 @@ import { authSignOutRoutes } from 'app/modules/auth/sign-out/sign-out.routing';
         RouterModule.forChild(authSignOutRoutes),
         MatButtonModule,
         FuseCardModule,
-        SharedModule
+        SharedModule,
+        SocialLoginModule
     ]
 })
 export class AuthSignOutModule

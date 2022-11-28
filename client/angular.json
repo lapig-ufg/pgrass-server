@@ -9,7 +9,7 @@
     },
     "newProjectRoot": "projects",
     "projects": {
-        "fuse": {
+        "pgrass": {
             "projectType": "application",
             "schematics": {
                 "@schematics/angular:component": {
@@ -23,7 +23,7 @@
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
-                        "outputPath": "dist/fuse",
+                        "outputPath": "dist/pgrass",
                         "index": "src/index.html",
                         "main": "src/main.ts",
                         "polyfills": "src/polyfills.ts",
@@ -42,7 +42,8 @@
                             "lru-cache",
                             "web-worker",
                             "xml-utils/get-attribute.js",
-                            "xml-utils/find-tags-by-name.js"
+                            "xml-utils/find-tags-by-name.js",
+                            "query-string"
                         ],
                         "assets": [
                             "src/favicon-16x16.png",
@@ -108,10 +109,10 @@
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "configurations": {
                         "production": {
-                            "browserTarget": "fuse:build:production"
+                            "browserTarget": "pgrass:build:production"
                         },
                         "development": {
-                            "browserTarget": "fuse:build:development"
+                            "browserTarget": "pgrass:build:development"
                         }
                     },
                     "defaultConfiguration": "development"
@@ -119,7 +120,7 @@
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",
                     "options": {
-                        "browserTarget": "fuse:build"
+                        "browserTarget": "pgrass:build"
                     }
                 },
                 "test": {

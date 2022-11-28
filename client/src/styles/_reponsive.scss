@@ -26,7 +26,7 @@
 ///
 /// Creates a list of global breakpoints
 ///
-/// @main scss - Creates a single breakpoint with the label `phone`
+/// @datasets scss - Creates a single breakpoint with the label `phone`
 ///  $breakpoints: ('phone': 320px);
 ///
 @use "sass:math";
@@ -44,10 +44,10 @@ $breakpoints: (
 ///
 /// Creates a list of static expressions or media types
 ///
-/// @main scss - Creates a single media type (screen)
+/// @datasets scss - Creates a single media type (screen)
 ///  $media-expressions: ('screen': 'screen');
 ///
-/// @main scss - Creates a static expression with logical disjunction (OR operator)
+/// @datasets scss - Creates a static expression with logical disjunction (OR operator)
 ///  $media-expressions: (
 ///    'retina2x': '(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)'
 ///  );
@@ -66,19 +66,19 @@ $media-expressions: (
 ///
 /// Defines a number to be added or subtracted from each unit when declaring breakpoints with exclusive intervals
 ///
-/// @main scss - Interval for pixels is defined as `1` by default
+/// @datasets scss - Interval for pixels is defined as `1` by default
 ///  @include media('>128px') {}
 ///
 ///  /* Generates: */
 ///  @media (min-width: 129px) {}
 ///
-/// @main scss - Interval for ems is defined as `0.01` by default
+/// @datasets scss - Interval for ems is defined as `0.01` by default
 ///  @include media('>20em') {}
 ///
 ///  /* Generates: */
 ///  @media (min-width: 20.01em) {}
 ///
-/// @main scss - Interval for rems is defined as `0.1` by default, to be used with `font-size: 62.5%;`
+/// @datasets scss - Interval for rems is defined as `0.1` by default, to be used with `font-size: 62.5%;`
 ///  @include media('>2.0rem') {}
 ///
 ///  /* Generates: */
@@ -95,7 +95,7 @@ $unit-intervals: (
 /// Defines whether support for media queries is available, useful for creating separate stylesheets
 /// for browsers that don't support media queries.
 ///
-/// @main scss - Disables support for media queries
+/// @datasets scss - Disables support for media queries
 ///  $im-media-support: false;
 ///  @include media('>=tablet') {
 ///    .foo {
@@ -114,7 +114,7 @@ $im-media-support: true !default;
 /// Selects which breakpoint to emulate when support for media queries is disabled. Media queries that start at or
 /// intercept the breakpoint will be displayed, any others will be ignored.
 ///
-/// @main scss - This media query will show because it intercepts the static breakpoint
+/// @datasets scss - This media query will show because it intercepts the static breakpoint
 ///  $im-media-support: false;
 ///  $im-no-media-breakpoint: 'desktop';
 ///  @include media('>=tablet') {
@@ -128,7 +128,7 @@ $im-media-support: true !default;
 ///    color: tomato;
 ///  }
 ///
-/// @main scss - This media query will NOT show because it does not intercept the desktop breakpoint
+/// @datasets scss - This media query will NOT show because it does not intercept the desktop breakpoint
 ///  $im-media-support: false;
 ///  $im-no-media-breakpoint: 'tablet';
 ///  @include media('>=desktop') {
@@ -145,7 +145,7 @@ $im-no-media-breakpoint: 'desktop' !default;
 /// Selects which media expressions are allowed in an expression for it to be used when media queries
 /// are not supported.
 ///
-/// @main scss - This media query will show because it intercepts the static breakpoint and contains only accepted media expressions
+/// @datasets scss - This media query will show because it intercepts the static breakpoint and contains only accepted media expressions
 ///  $im-media-support: false;
 ///  $im-no-media-breakpoint: 'desktop';
 ///  $im-no-media-expressions: ('screen');
@@ -160,7 +160,7 @@ $im-no-media-breakpoint: 'desktop' !default;
 ///     color: tomato;
 ///   }
 ///
-/// @main scss - This media query will NOT show because it intercepts the static breakpoint but contains a media expression that is not accepted
+/// @datasets scss - This media query will NOT show because it intercepts the static breakpoint but contains a media expression that is not accepted
 ///  $im-media-support: false;
 ///  $im-no-media-breakpoint: 'desktop';
 ///  $im-no-media-expressions: ('screen');
@@ -482,7 +482,7 @@ $im-no-media-expressions: ('screen', 'portrait', 'landscape') !default;
 /// @param {Map} $tweakpoints [()] - Map of tweakpoints to be merged with `$breakpoints`
 /// @param {Map} $tweak-media-expressions [()] - Map of tweaked media expressions to be merged with `$media-expression`
 ///
-/// @main scss - Extend the global breakpoints with a tweakpoint
+/// @datasets scss - Extend the global breakpoints with a tweakpoint
 ///  @include media-context(('custom': 678px)) {
 ///    .foo {
 ///      @include media('>phone', '<=custom') {
@@ -491,7 +491,7 @@ $im-no-media-expressions: ('screen', 'portrait', 'landscape') !default;
 ///    }
 ///  }
 ///
-/// @main scss - Extend the global media expressions with a custom one
+/// @datasets scss - Extend the global media expressions with a custom one
 ///  @include media-context($tweak-media-expressions: ('all': 'all')) {
 ///    .foo {
 ///      @include media('all', '>phone') {
@@ -500,7 +500,7 @@ $im-no-media-expressions: ('screen', 'portrait', 'landscape') !default;
 ///    }
 ///  }
 ///
-/// @main scss - Extend both configuration maps
+/// @datasets scss - Extend both configuration maps
 ///  @include media-context(('custom': 678px), ('all': 'all')) {
 ///    .foo {
 ///      @include media('all', '>phone', '<=custom') {
@@ -537,22 +537,22 @@ $im-no-media-expressions: ('screen', 'portrait', 'landscape') !default;
 ///
 /// @param {Arglist}   $conditions  - Media query conditions
 ///
-/// @main scss - With a single set breakpoint
+/// @datasets scss - With a single set breakpoint
 ///  @include media('>phone') { }
 ///
-/// @main scss - With two set breakpoints
+/// @datasets scss - With two set breakpoints
 ///  @include media('>phone', '<=tablet') { }
 ///
-/// @main scss - With custom values
+/// @datasets scss - With custom values
 ///  @include media('>=358px', '<850px') { }
 ///
-/// @main scss - With set breakpoints with custom values
+/// @datasets scss - With set breakpoints with custom values
 ///  @include media('>desktop', '<=1350px') { }
 ///
-/// @main scss - With a static expression
+/// @datasets scss - With a static expression
 ///  @include media('retina2x') { }
 ///
-/// @main scss - Mixing everything
+/// @datasets scss - Mixing everything
 ///  @include media('>=350px', '<tablet', 'retina3x') { }
 ///
 @mixin media($conditions...) {

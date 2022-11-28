@@ -13,7 +13,7 @@
  *  05. forms
  *  06. header styles
  *  07. off-canvas menu
- *  08. main-404-content
+ *  08. datasets-404-content
  *
  * =================================================================== 
  */
@@ -856,7 +856,7 @@ header .logo a {
 
 /** 
  * ===================================================================
- * 08. main-404-content - (_layout.scss)
+ * 08. datasets-404-content - (_layout.scss)
  *
  * ------------------------------------------------------------------- 
  */
@@ -1074,7 +1074,7 @@ header .logo a {
 }
 
 /**
- * responsive - main-404-content
+ * responsive - datasets-404-content
  * ------------------------------------------------------------------- 
  */
  
@@ -1119,4 +1119,4 @@ header .logo a {
 	}
 }
 
-/*# sourceMappingURL=main.css.map */
+/*# sourceMappingURL=datasets.css.map */
