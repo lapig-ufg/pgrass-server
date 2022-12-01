@@ -2,14 +2,14 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {map, Observable, ReplaySubject, tap} from 'rxjs';
 import {environment} from '../../../../environments/environment';
-import {Collection} from './collections.types';
+import {Feature} from './collections.types';
 
 @Injectable({
     providedIn: 'root'
 })
-export class CollectionsService {
-    private _collections: ReplaySubject<Collection[]> = new ReplaySubject<Collection[]>();
-    private _apiUrl: string = environment.apiUrl + '/api/collections';
+export class FeaturesService {
+    private _features: ReplaySubject<Feature[]> = new ReplaySubject<Feature[]>();
+    private _apiUrl: string = environment.apiUrl + '/api/features';
 
     /**
      * Constructor
@@ -25,13 +25,13 @@ export class CollectionsService {
      *
      * @param value
      */
-    get collections$(): Observable<Collection[]> {
-        return this._collections.asObservable();
+    get features$(): Observable<Feature[]> {
+        return this._features.asObservable();
     }
 
-    set collections(value: Collection[]) {
+    set features(value: Feature[]) {
         // Store the value
-        this._collections.next(value);
+        this._features.next(value);
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -41,10 +41,10 @@ export class CollectionsService {
     /**
      * Get get all datasets by username
      */
-    get(): Observable<Collection[]> {
-        return this._httpClient.get<Collection[]>(`${environment.apiUrl}/api/datasets/features`).pipe(
-            tap((datasets) => {
-                this._collections.next(datasets);
+    get(): Observable<Feature[]> {
+        return this._httpClient.get<Feature[]>(`${environment.apiUrl}/`).pipe(
+            tap((features) => {
+                this._features.next(features);
             })
         );
     }
@@ -52,16 +52,16 @@ export class CollectionsService {
     /**
      * Get dataset-item by _id
      */
-    getById(id: string): Observable<Collection> {
-        return this._httpClient.get<Collection>(`${this._apiUrl}/${id}`).pipe(
+    getById(id: string): Observable<Feature> {
+        return this._httpClient.get<Feature>(`${this._apiUrl}/${id}`).pipe(
             map(response => response)
         );
     }
     /**
      * getFeaturesByDatasetId
      */
-    getFeaturesByDatasetId(datasetId: string): Observable<Collection> {
-        return this._httpClient.get<Collection>(`${this._apiUrl}/${datasetId}`).pipe(
+    getByDatasetId(datasetId: string): Observable<Feature[]> {
+        return this._httpClient.get<Feature[]>(`${this._apiUrl}/geopandas/dataset/${datasetId}`).pipe(
             map(response => response)
         );
     }

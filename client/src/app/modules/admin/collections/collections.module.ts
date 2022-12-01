@@ -14,17 +14,24 @@ import {UploaderModule} from '../../../core/uploader/uploader.module';
 import {MatDialogModule} from '@angular/material/dialog';
 import {FuseAlertModule} from '../../../../@fuse/components/alert';
 import {CollectionItemComponent} from './collection-item/collection-item.component';
+import {AnalyzeFeaturesComponent} from './analyze-features/analyze-features.component';
+import {NgApexchartsModule} from "ng-apexcharts";
 const datasetRoutes: Route[] = [
     {
         path     : '',
         component: CollectionsComponent,
+    },
+    {
+        path     : 'analyze',
+        component: AnalyzeFeaturesComponent,
     }
 ];
 
 @NgModule({
     declarations: [
         CollectionsComponent,
-        CollectionItemComponent
+        CollectionItemComponent,
+        AnalyzeFeaturesComponent
     ],
     imports: [
         CommonModule,
@@ -39,11 +46,13 @@ const datasetRoutes: Route[] = [
         MatButtonModule,
         UploaderModule,
         MatDialogModule,
-        FuseAlertModule
+        FuseAlertModule,
+        NgApexchartsModule
     ],
     exports: [
         CollectionsComponent,
-        CollectionItemComponent
+        CollectionItemComponent,
+        AnalyzeFeaturesComponent
     ]
 })
 export class CollectionsModule

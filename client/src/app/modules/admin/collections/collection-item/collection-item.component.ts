@@ -1,35 +1,26 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import TileLayer from 'ol/layer/Tile';
 import {XYZ} from 'ol/source';
-import {Subject, takeUntil} from 'rxjs';
-import {CollectionsService} from '../collections.service';
 import {MatDialog} from '@angular/material/dialog';
 import {Collection} from '../collections.types';
+import {Router} from '@angular/router';
 
 @Component({
-    selector: 'admin-collection-item',
+    selector: 'collection-item',
     templateUrl: './collection-item.component.html',
     styleUrls: ['./collection-item.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
 export class CollectionItemComponent implements OnInit {
-    public scaleOptions = {
-        units: 'metric',
-        bar: true,
-        text: true,
-        minWidth: 100,
-    };
     public layers: any[] = [];
-    public collections: Collection[] = [];
-
-    private unsubscribeAll: Subject<any> = new Subject<any>();
-
+    public _collection: Collection;
     /**
      * Constructor
      */
     constructor(
-        private collectionsService: CollectionsService,
-        public dialog: MatDialog
+        public dialog: MatDialog,
+                private router: Router
+
     ) {
         this.layers = [
             new TileLayer({
@@ -48,6 +39,16 @@ export class CollectionItemComponent implements OnInit {
         ];
     }
 
+    @Input() set collection(value: Collection) {
+        if (value) {
+            this._collection = value;
+        }
+    };
+
     ngOnInit(): void {
+    }
+
+    async analyze(): Promise<any>{
+        await this.router.navigate(['/collections/analyze', { datasetId: this._collection._id }]);
     }
 }

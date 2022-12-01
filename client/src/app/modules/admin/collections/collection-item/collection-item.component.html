@@ -1,23 +1,55 @@
-<div class="flex flex-col flex-auto min-w-0">
-    <!-- Header -->
-    <div
-        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
-        <div class="flex-1 min-w-0">
-            <!-- Breadcrumbs -->
-            <div class="flex flex-wrap items-center font-medium">
-                <div>
-                    <a [routerLink]="['/collections']" class="whitespace-nowrap text-primary-500">Collections</a>
-                </div>
+<fuse-card *ngIf="_collection" class="flex flex-col max-w-90 w-full mt-3 filter-article">
+    <ol-map class="object-cover" [lat]="-16.6958288" [lon]="-49.4443537" [zoom]="4.6" [height]="'200px'">
+        <ol-control class="mobileHide" control="FullScreen"></ol-control>
+        <ol-layer *ngFor="let layer of layers" [layer]="layer"></ol-layer>
+        <ol-map-features [features]="_collection.features"></ol-map-features>
+    </ol-map>
+    <div class="m-4">
+        <div class="flex items-start justify-between">
+            <div class="text-lg font-medium tracking-tight leading-6 truncate">Metadata</div>
+            <div class="ml-2 -mt-2 -mr-3">
+                <button
+                    mat-icon-button
+                    [matMenuTriggerFor]="menu">
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <button
+                        mat-menu-item
+                        (click)="analyze()">
+                        <mat-icon color="primary" [svgIcon]="'heroicons_outline:presentation-chart-line'"></mat-icon>
+                        <span>Analyze Features</span>
+                    </button>
+                </mat-menu>
             </div>
-            <!-- Title -->
-            <div class="mt-2">
-                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    Collections of Features
-                </h2>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-y-1 mt-3">
+            <div class="flex items-center m-2" matTooltip="{{_collection.columns}}">
+                <mat-icon
+                    class="icon-size-5 text-accent"
+                    [svgIcon]="'heroicons_solid:view-list'"></mat-icon>
+                <div class="ml-2">Attributes</div>
+            </div>
+            <div class="flex items-center m-2">
+                <mat-icon
+                    class="icon-size-5 text-accent"
+                    [svgIcon]="'heroicons_solid:globe'"></mat-icon>
+                <div class="ml-2">EPSG: {{_collection.epsg}}</div>
+            </div>
+            <div class="flex items-center m-2">
+                <mat-icon
+                    class="icon-size-5 text-accent"
+                    [svgIcon]="'feather:calendar'"></mat-icon>
+                <div class="ml-2">Created at {{_collection.created_at | date}}</div>
+            </div>
+            <div class="flex items-center m-2">
+                <mat-icon
+                    class="icon-size-5 text-accent"
+                    [svgIcon]="'heroicons_solid:user'"></mat-icon>
+                <div class="ml-2">Owner: {{_collection.username}}</div>
             </div>
         </div>
     </div>
-<!--    <div class="flex flex-wrap items-center justify-around w-full p-6">-->
-<!--        <dataset-item *ngFor="let dataset of datasets" [dataset]="dataset"></dataset-item>-->
-<!--    </div>-->
-</div>
+</fuse-card>

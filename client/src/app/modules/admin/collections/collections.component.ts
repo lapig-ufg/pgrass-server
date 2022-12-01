@@ -7,21 +7,14 @@ import {MatDialog} from '@angular/material/dialog';
 import {Collection} from './collections.types';
 
 @Component({
-    selector: 'admin-collections',
+    selector: 'collections',
     templateUrl: './collections.component.html',
     styleUrls: ['./collections.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
 export class CollectionsComponent implements OnInit {
-    public scaleOptions = {
-        units: 'metric',
-        bar: true,
-        text: true,
-        minWidth: 100,
-    };
     public layers: any[] = [];
     public collections: Collection[] = [];
-
     private unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
